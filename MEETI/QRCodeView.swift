@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct QRCodeView: View {
+    // QRコードに使う自分の参加者データを受け取る
+    var participant: Participant
+    
     var body: some View {
         VStack {
             Text("あなたの名刺を持ち帰る")
@@ -21,5 +24,13 @@ struct QRCodeView: View {
 }
 
 #Preview {
-    QRCodeView()
+    QRCodeView(
+        participant: Participant(
+            number: 1,
+            nickname: "ゆな",
+            mbti: "ENTJ",
+            interests: ["ゲーム", "犬", "旅行"],
+            message: "よろしく！"
+        )
+    )
 }
