@@ -1,38 +1,35 @@
-//
-//  PartnerCardView.swift
-//  MEETI
-//
-//  Created by ♡ on 2026/09/28.
-//
-
 import SwiftUI
 
 struct PartnerCardView: View {
+    var participant: Participant?
+
     var body: some View {
         VStack {
             Text("MATCH CARD")
 
-            Text("No.012")
+            if let participant = participant {
+                Text("No.\(participant.number)")
+                Text(participant.nickname)
+                Text(participant.mbti)
 
-            Text("たえちゃん")
+                Text("好きなこと")
+                Text(participant.interests.joined(separator: "・"))
 
-            Text("INFP")
+                Text("ひとこと")
+                Text(participant.message)
 
-            Text("趣味・好きなもの")
-            Text("犬・カフェ・旅行")
+                Text("文化祭のどこかにいるかも！")
 
-            Text("ひとこと")
-            Text("よろしくお願いします！")
-
-            Text("文化祭のどこかにいるかも！")
-            
-            NavigationLink("自分の名刺を持ち帰る") {
-                QRCodeView()
+                NavigationLink("自分の名刺を持ち帰る") {
+                    QRCodeView()
+                }
+            } else {
+                Text("参加者情報がありません")
             }
-        }//VStack end
+        }
     }
 }
 
 #Preview {
-    PartnerCardView()
+    PartnerCardView(participant: nil)
 }
