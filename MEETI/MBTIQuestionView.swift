@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct MBTIQuestionView: View {
+    
+    var nickname: String
+    var interests: [String]
+    var message: String
+    
     var body: some View {
         VStack {
             Text("MBTI診断")
@@ -15,11 +20,21 @@ struct MBTIQuestionView: View {
             Text("ここに質問が入ります")
             
             NavigationLink("診断結果へ") {
-                MBTIResultView()
+                MBTIResultView(
+                    nickname: nickname,
+                    interests: interests,
+                    message: message,
+                    mbti: "ENTJ"
+                )
             }
-        }    }
+        }
+    }
 }
 
 #Preview {
-    MBTIQuestionView()
+    MBTIQuestionView(
+        nickname: "ゆな",
+        interests: ["ゲーム", "犬", "旅行"],
+        message: "よろしく！"
+    )
 }
