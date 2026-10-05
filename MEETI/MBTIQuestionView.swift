@@ -8,24 +8,100 @@
 import SwiftUI
 
 struct MBTIQuestionView: View {
-    
     var nickname: String
     var interests: [String]
     var message: String
-    
+
+    @State private var selectedMethod = "12問で診断"
+    @State private var diagnosis = MBTIDiagnosisSession()
+    @State private var selectedMBTI = "ENFJ"
+    @State private var resultMBTI = ""
+    @State private var showResult = false
+
     var body: some View {
-        VStack {
-            Text("MBTI診断")
-            
-            Text("ここに質問が入ります")
-            
-            NavigationLink("診断結果へ") {
-                MBTIResultView(
-                    nickname: nickname,
-                    interests: interests,
-                    message: message,
-                    mbti: "ENTJ"
-                )
+        ScrollView {
+            VStack(spacing: 20) {
+                Text("MBTIを決める")
+                    .font(.title)
+
+                // 診断するか、分かっているタイプを選ぶか切り替える
+                Picker("MBTIの決め方", selection: $selectedMethod) {
+                    Text("12問で診断")
+                        .tag("12問で診断")
+                    Text("直接選ぶ")
+                        .tag("直接選ぶ")
+                }
+                .pickerStyle(.segmented)
+
+                if selectedMethod == "12問で診断" {
+                    diagnosisView
+                } else {
+                    directSelectionView
+                }
+            }
+            .padding()
+        }
+        .navigationDestination(isPresented: $showResult) {
+            MBTIResultView(
+                nickname: nickname,
+                interests: interests,
+                message: message,
+                mbti: resultMBTI
+            )
+        }
+    }
+
+    // 12問診断を表示する部分
+    private var diagnosisView: some View {
+        VStack(spacing: 16) {
+            if let question = diagnosis.currentQuestion {
+                Text("\(diagnosis.currentQuestionIndex + 1) / \(mbtiQuestions.count) 問")
+
+                Text(question.text)
+                    .font(.headline)
+
+                Button("A. \(question.optionA)") {
+                    answerQuestion("A")
+                }
+                .buttonStyle(.borderedProminent)
+
+                Button("B. \(question.optionB)") {
+                    answerQuestion("B")
+                }
+                .buttonStyle(.bordered)
+
+                if diagnosis.currentQuestionIndex > 0 {
+                    Button("1問戻る") {
+                        diagnosis.goBack()
+                    }
+                }
+            }
+        }
+    }
+
+    // 16タイプから直接選ぶ部分
+    private var directSelectionView: some View {
+        VStack(spacing: 16) {
+            Text("自分のMBTIを選んでください")
+
+            MBTITypePickerView(selectedMBTI: $selectedMBTI)
+
+            Button("このタイプで決定") {
+                resultMBTI = selectedMBTI
+                showResult = true
+            }
+            .buttonStyle(.borderedProminent)
+        }
+    }
+
+    // 回答を保存し、12問終わったら結果画面へ進む
+    private func answerQuestion(_ answer: String) {
+        let added = diagnosis.selectAnswer(answer)
+
+        if added && diagnosis.isComplete {
+            if let result = diagnosis.calculateResult() {
+                resultMBTI = result
+                showResult = true
             }
         }
     }
