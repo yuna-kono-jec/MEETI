@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MatchResultView: View {
+    // この画面で使う参加者データを受け取る
+    var participant: Participant
+
     var body: some View {
         VStack {
             Text("BEST MATCH")
@@ -31,5 +34,14 @@ struct MatchResultView: View {
 }
 
 #Preview {
-    MatchResultView()
+    // プレビュー画面で確認するための仮の参加者データ
+    MatchResultView(
+        participant: Participant(
+            number: 1,
+            nickname: "ゆな",
+            mbti: "ENTJ",
+            interests: ["ゲーム", "犬", "旅行"],
+            message: "よろしく！"
+        )
+    )
 }

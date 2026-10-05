@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MatchingView: View {
+    var participant: Participant
     var body: some View {
         VStack {
             Text("あなたにぴったりの人を探しています…")
@@ -15,12 +16,21 @@ struct MatchingView: View {
             ProgressView()
 
             NavigationLink("マッチング結果を見る") {
-                MatchResultView()
+                // 今マッチングしている本人のデータを結果画面に渡す
+                MatchResultView(participant: participant)
             }
         }//VStack end
     }
 }
 
 #Preview {
-    MatchingView()
+    MatchingView(
+        participant: Participant(
+            number: 1,
+            nickname: "ゆな",
+            mbti: "ENTJ",
+            interests: ["ゲーム", "犬", "旅行"],
+            message: "よろしく！"
+        )
+    )
 }
