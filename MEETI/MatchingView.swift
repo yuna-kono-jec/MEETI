@@ -15,7 +15,10 @@ struct MatchingView: View {
             ProgressView()
 
             NavigationLink("マッチング結果を見る") {
-                MatchResultView(result: result)
+                MatchResultView(
+                    result: result,
+                    currentParticipant: participant
+                )
             }
         }
         .onAppear {
