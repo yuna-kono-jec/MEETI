@@ -2,7 +2,12 @@ import Foundation
 
 struct MBTICalculator {
 
-    static func calculate(answers: [String]) -> String {
+    static func calculate(answers: [String]) -> String? {
+
+        // 12問すべてに回答していない場合は計算しない
+        if answers.count != mbtiQuestions.count {
+            return nil
+        }
 
         var eScore = 0
         var iScore = 0
@@ -25,6 +30,9 @@ struct MBTICalculator {
                 selectedType = question.optionAType
             } else if answer == "B" {
                 selectedType = question.optionBType
+            } else {
+                // AとB以外が入っていた場合は計算しない
+                return nil
             }
 
             // 選ばれたタイプに1点追加

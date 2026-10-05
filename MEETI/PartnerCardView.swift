@@ -8,27 +8,31 @@
 import SwiftUI
 
 struct PartnerCardView: View {
+    var participant: Participant?
+
     var body: some View {
         VStack {
             Text("MATCH CARD")
 
-            Text("No.012")
+            if let participant = participant {
+                Text("No.\(participant.number)")
+                Text(participant.nickname)
+                Text(participant.mbti)
 
-            Text("たえちゃん")
+                Text("好きなこと")
+                Text(participant.interests.joined(separator: "・"))
 
-            Text("INFP")
+                Text("ひとこと")
+                Text(participant.message)
 
-            Text("趣味・好きなもの")
-            Text("犬・カフェ・旅行")
-
-            Text("ひとこと")
-            Text("よろしくお願いします！")
-
-            Text("文化祭のどこかにいるかも！")
+                Text("文化祭のどこかにいるかも！")
+            } else {
+                Text("参加者情報がありません")
+            }
         }//VStack end
     }
 }
 
 #Preview {
-    PartnerCardView()
+    PartnerCardView(participant: nil)
 }
