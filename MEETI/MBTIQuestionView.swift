@@ -19,10 +19,8 @@ struct MBTIQuestionView: View {
     @State private var showResult = false
 
     var body: some View {
-        ScrollView {
+        MEETIScreen(eyebrow: "02 / YOUR TYPE", title: "MBTIを決めよう", subtitle: "直感で答えて、あなたらしさを見つけよう。") {
             VStack(spacing: 20) {
-                Text("MBTIを決める")
-                    .font(.title)
 
                 // 診断するか、分かっているタイプを選ぶか切り替える
                 Picker("MBTIの決め方", selection: $selectedMethod) {
@@ -51,24 +49,29 @@ struct MBTIQuestionView: View {
         }
     }
 
-    // 12問診断を表示する部分
+    // 12問診断を共通の配色で表示し、既存の回答処理を呼び出します。
     private var diagnosisView: some View {
         VStack(spacing: 16) {
             if let question = diagnosis.currentQuestion {
                 Text("\(diagnosis.currentQuestionIndex + 1) / \(mbtiQuestions.count) 問")
 
+                // 回答状態には触れず、進み具合をバーで表示します。
+                ProgressView(value: Double(diagnosis.currentQuestionIndex), total: Double(mbtiQuestions.count)).tint(MEETIStyle.green)
+
                 Text(question.text)
-                    .font(.headline)
+                    .font(.title3.weight(.medium))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 20)
 
                 Button("A. \(question.optionA)") {
                     answerQuestion("A")
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(MEETIButtonStyle())
 
                 Button("B. \(question.optionB)") {
                     answerQuestion("B")
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(MEETIButtonStyle())
 
                 if diagnosis.currentQuestionIndex > 0 {
                     Button("1問戻る") {
@@ -90,7 +93,7 @@ struct MBTIQuestionView: View {
                 resultMBTI = selectedMBTI
                 showResult = true
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(MEETIButtonStyle())
         }
     }
 

@@ -5,29 +5,15 @@ struct PartnerCardView: View {
     // QRコード表示まで引き継ぐ、現在操作している本人の参加者データ
     var currentParticipant: Participant
     var body: some View {
-        VStack {
-            Text("MATCH CARD")
-
+        // 相手の名刺を表示し、QR画面には従来どおり本人を渡します。
+        MEETIScreen(eyebrow: "07 / MATCH CARD", title: "気になる人の名刺", subtitle: "文化祭のどこかにいるかも！") {
             if let participant = participant {
-                Text("No.\(participant.number)")
-                Text(participant.nickname)
-                Text(participant.mbti)
-
-                Text("好きなこと")
-                Text(participant.interests.joined(separator: "・"))
-
-                Text("ひとこと")
-                Text(participant.message)
-
-                Text("文化祭のどこかにいるかも！")
-
-                // 自分の名刺をQRコードで持ち帰る
-                NavigationLink("自分の名刺を持ち帰る") {
-                    // マッチした相手ではなく、現在操作している本人のデータをQR画面へ渡す
-                    QRCodeView(participant: currentParticipant)
-                }
+                MEETIParticipantCard(participant: participant)
+                NavigationLink { QRCodeView(participant: currentParticipant) } label: {
+                    Label("自分の名刺を持ち帰る", systemImage: "qrcode")
+                }.buttonStyle(MEETIButtonStyle())
             } else {
-                Text("参加者情報がありません")
+                Text("参加者情報がありません").meetiCard()
             }
         }
     }
