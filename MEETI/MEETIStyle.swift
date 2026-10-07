@@ -72,7 +72,7 @@ struct MEETITypeImage: View {
     }
 }
 
-// 保存済みの写真がある場合はそれを表示し、未登録時はタイプ画像を使います。
+// 保存済みの写真がある場合はそれを表示し、未登録時はMBTI画像を使います。
 struct MEETIAvatar: View {
     let participant: Participant
     var size: CGFloat = 130
