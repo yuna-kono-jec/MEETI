@@ -38,16 +38,19 @@ struct MBTIResultView: View {
     }
     
     var body: some View {
-        VStack {
-            Text("診断結果")
-
-            Text(mbti)
-            
+        // 診断結果のタイプ名で既存Assetsの画像を表示します。
+        MEETIScreen(eyebrow: "03 / RESULT", title: "あなたのタイプ", subtitle: "あなたらしさを、名刺に添えて。") {
+            VStack(spacing: 24) {
+                Text(mbti).font(.system(size: 40, weight: .medium, design: .rounded)).tracking(6).foregroundStyle(MEETIStyle.green)
+                MEETITypeImage(type: mbti)
+                Text("好きなことも、あなたの個性のひとつ。\n次は自己紹介カードを作りましょう。")
+                    .multilineTextAlignment(.center).font(.subheadline).lineSpacing(6)
+            }.frame(maxWidth: .infinity).meetiCard()
             Button("名刺を作る") {
                 saveParticipant()
                 showBusinessCard = true
-            }
-        }//VStack end
+            }.buttonStyle(MEETIButtonStyle())
+        }
         .navigationDestination(isPresented: $showBusinessCard) {
             if let participant = savedParticipant {
                 BusinessCardView(participant: participant)
