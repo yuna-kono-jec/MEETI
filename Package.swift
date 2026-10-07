@@ -20,6 +20,7 @@ let package = Package(
                 "MBTIQuestionView.swift",
                 "MBTIResultView.swift",
                 "MBTITypePickerView.swift",
+                "CameraPicker.swift",
                 "BusinessCardView.swift",
                 "QRCodeView.swift",
                 "MatchingView.swift",

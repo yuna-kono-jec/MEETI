@@ -19,6 +19,7 @@ struct MBTIResultView: View {
     var interests: [String]
     var message: String
     var mbti: String
+    var photoData: Data?
     
     private func saveParticipant() {
         
@@ -30,7 +31,8 @@ struct MBTIResultView: View {
             nickname: nickname,
             mbti: mbti,
             interests: interests,
-            message: message
+            message: message,
+            photoData: photoData
         )
 
         modelContext.insert(participant)
@@ -64,6 +66,7 @@ struct MBTIResultView: View {
         nickname: "ゆな",
         interests: ["ゲーム", "犬", "旅行"],
         message: "よろしく！",
-        mbti: "ENTJ"
+        mbti: "ENTJ",
+        photoData: nil
     )
 }
