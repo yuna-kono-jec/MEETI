@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct QRCodeView: View {
+    // StartViewが提供する終了操作を受け取り、本人や相手のデータは変更しません。
+    @Environment(\.finishMEETIExperience) private var finishExperience
+
     // QRコードに使う自分の参加者データを受け取る
     var participant: Participant
     
@@ -23,6 +26,25 @@ struct QRCodeView: View {
                 Text("このアイコンは読み取り用QRコードではありません").font(.caption).foregroundStyle(.secondary)
             }.frame(maxWidth: .infinity).meetiCard()
             MEETIParticipantCard(participant: participant)
+            // QR・名刺の表示を維持したまま、その下に次の参加者へ渡すための案内を追加します。
+            VStack(spacing: 12) {
+                Text("名刺を保存したら、次の人へ")
+                    .font(.caption).foregroundStyle(.secondary)
+                Button {
+                    // 1画面だけ戻るdismissではなく、ルートでNavigationStack全体を再生成します。
+                    finishExperience?()
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("体験を終了する")
+                        Spacer()
+                        Image(systemName: "arrow.right")
+                    }
+                }
+                .buttonStyle(MEETIButtonStyle())
+                // ルートに接続されていない単体Previewでは、無効な終了操作を防ぎます。
+                .disabled(finishExperience == nil)
+            }.frame(maxWidth: .infinity)
         }
     }
 }

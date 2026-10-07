@@ -69,9 +69,7 @@ struct BusinessCardView: View {
                     .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
-            // 左右で種類・高さ・位置を変え、情報を邪魔しない非対称の植物にします。
-            .overlay(alignment: .bottomLeading) { smallFlower(.foliage).offset(x: -3, y: -2) }
-            .overlay(alignment: .bottomTrailing) { smallFlower(.wildflowers).rotationEffect(.degrees(12)).offset(x: 3, y: -18) }
+            // 名前の左右への直立した装飾は撤去し、植物はカード全体の端に配置します。
             .padding(.horizontal, 18)
 
             // 趣味タグは内容に必要な幅だけ使い、3つを中央寄せで並べます。
@@ -92,21 +90,48 @@ struct BusinessCardView: View {
             }
             .padding(.vertical, 9).padding(.leading, 11).padding(.trailing, 32)
             .background(MEETIStyle.ivory.opacity(0.65), in: RoundedRectangle(cornerRadius: 14))
-            .overlay(alignment: .bottomTrailing) { smallFlower(.tulip).padding(.trailing, 2) }
+            // チューリップも右端から斜めに覗かせ、メッセージ本文には重ねません。
+            .overlay(alignment: .bottomTrailing) {
+                smallFlower(.tulip).rotationEffect(.degrees(-32)).offset(x: 7, y: 4)
+            }
             HStack {
-                smallFlower(.wildflowers)
                 Spacer()
                 VStack(spacing: 2) {
                     Text("MEETI.").font(.system(size: 16, weight: .light)).tracking(4)
                     Text("Meet your type.").font(.system(size: 8)).tracking(1)
                 }.foregroundStyle(MEETIStyle.green)
                 Spacer()
-                smallFlower(.foliage).rotationEffect(.degrees(15))
-            }.accessibilityHidden(true)
+            }.frame(minHeight: 34).accessibilityHidden(true)
         }
         .padding(14).frame(maxWidth: .infinity)
         .background(.white.opacity(0.8), in: RoundedRectangle(cornerRadius: 22))
         .overlay(RoundedRectangle(cornerRadius: 22).stroke(MEETIStyle.green.opacity(0.1), lineWidth: 0.7))
+        // 植物を情報の左右ではなく、紙の端から入り込む非対称な装飾として重ねます。
+        .overlay {
+            GeometryReader { geometry in
+                ZStack {
+                    // 左端から右上へ伸びる枝。根元はカード外に逃がします。
+                    smallFlower(.foliage).scaleEffect(1.35)
+                        .rotationEffect(.degrees(52))
+                        .position(x: 4, y: geometry.size.height * 0.46)
+                    // 右端の小花は左上を向け、左側と異なる高さ・長さにします。
+                    smallFlower(.wildflowers).scaleEffect(1.1)
+                        .rotationEffect(.degrees(-61))
+                        .position(x: geometry.size.width - 3, y: geometry.size.height * 0.34)
+                    // 左下の角から斜めに覗く野花。カード下端で一部を見切れさせます。
+                    smallFlower(.wildflowers).scaleEffect(1.2)
+                        .rotationEffect(.degrees(39))
+                        .position(x: 17, y: geometry.size.height - 4)
+                    // 右下は横方向の枝にし、野花と同じ向き・高さにしません。
+                    smallFlower(.foliage).scaleEffect(1.15)
+                        .rotationEffect(.degrees(-78))
+                        .position(x: geometry.size.width - 7, y: geometry.size.height - 23)
+                }
+            }
+            // 描画の端だけをカード形状で切り取り、装飾はボタンや文字の操作を妨げません。
+            .clipShape(RoundedRectangle(cornerRadius: 22))
+            .opacity(0.8).accessibilityHidden(true).allowsHitTesting(false)
+        }
     }
 
     // 他画面の花の大きさは変えず、名刺内だけ小さく配置します。
