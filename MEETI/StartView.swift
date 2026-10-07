@@ -1,6 +1,14 @@
 import SwiftUI
 
+// 終了操作を末端のQR画面まで環境経由で共有し、各画面のParticipant引数は変更しません。
+extension EnvironmentValues {
+    @Entry var finishMEETIExperience: (() -> Void)? = nil
+}
+
 struct StartView: View {
+    // この状態はNavigationStackの外に保持し、終了時に新しい画面ツリーを作ります。
+    @State private var experienceID = UUID()
+
     var body: some View {
         // 既存のNavigationStackとProfileInputViewへの遷移を維持します。
         NavigationStack {
@@ -28,6 +36,12 @@ struct StartView: View {
             .foregroundStyle(MEETIStyle.ink)
             .tint(MEETIStyle.green)
         }
+        // 識別子の更新でスタック全体を破棄し、戻る履歴・入力・診断の一時状態をリセットします。
+        // アプリ上位のSwiftDataコンテナと保存済みParticipantには触れません。
+        .id(experienceID)
+        .environment(\.finishMEETIExperience, {
+            experienceID = UUID()
+        })
     }
 
     // 参考画像にあるロゴ・説明・小花・ボタンだけを表示します。
