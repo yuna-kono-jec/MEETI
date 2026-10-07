@@ -11,6 +11,7 @@ struct MBTIQuestionView: View {
     var nickname: String
     var interests: [String]
     var message: String
+    var photoData: Data?
 
     @State private var selectedMethod = "12問で診断"
     @State private var diagnosis = MBTIDiagnosisSession()
@@ -44,7 +45,8 @@ struct MBTIQuestionView: View {
                 nickname: nickname,
                 interests: interests,
                 message: message,
-                mbti: resultMBTI
+                mbti: resultMBTI,
+                photoData: photoData
             )
         }
     }
@@ -114,6 +116,7 @@ struct MBTIQuestionView: View {
     MBTIQuestionView(
         nickname: "ゆな",
         interests: ["ゲーム", "犬", "旅行"],
-        message: "よろしく！"
+        message: "よろしく！",
+        photoData: nil
     )
 }

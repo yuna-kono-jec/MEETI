@@ -55,7 +55,7 @@ struct BusinessCardView: View {
                         .frame(width: imageSize, height: imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 14)).accessibilityHidden(true)
                 } else {
-                    // 固定タイプではなく、参加者本人のMBTI名に対応した既存Assetsを使用します。
+                    // 写真がない場合は、その人のMBTIに対応するAssets画像を使用します。
                     Image(participant.mbti.uppercased()).resizable().scaledToFit()
                         .frame(width: imageSize + 20, height: imageSize)
                         // Assets内の周囲の余白を表示枠で抑え、イラスト直下に名前を寄せます。
