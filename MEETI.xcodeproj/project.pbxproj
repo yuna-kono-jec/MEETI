@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F33F0343078B90D00BDD148 /* MEETIStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0333078B90D00BDD148 /* MEETIStyle.swift */; };
+		7F33F0363078B9BB00BDD148 /* BestMatchCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0353078B9BB00BDD148 /* BestMatchCalculator.swift */; };
+		7F33F0403078BABA00BDD148 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0373078BABA00BDD148 /* CameraPicker.swift */; };
+		7F33F0413078BABA00BDD148 /* MBTICalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03B3078BABA00BDD148 /* MBTICalculator.swift */; };
+		7F33F0423078BABA00BDD148 /* CompatibilityCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0383078BABA00BDD148 /* CompatibilityCalculator.swift */; };
+		7F33F0433078BABA00BDD148 /* InterestSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03A3078BABA00BDD148 /* InterestSelection.swift */; };
+		7F33F0443078BABA00BDD148 /* InterestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0393078BABA00BDD148 /* InterestData.swift */; };
+		7F33F0453078BABA00BDD148 /* MBTIQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03D3078BABA00BDD148 /* MBTIQuestion.swift */; };
+		7F33F0463078BABA00BDD148 /* MBTITypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03E3078BABA00BDD148 /* MBTITypeData.swift */; };
+		7F33F0473078BABA00BDD148 /* MBTIDiagnosisSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03C3078BABA00BDD148 /* MBTIDiagnosisSession.swift */; };
+		7F33F0483078BABA00BDD148 /* MBTITypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03F3078BABA00BDD148 /* MBTITypePickerView.swift */; };
 		7FE7F9EA3075E7DD00CCB8A9 /* BusinessCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */; };
 		7FE7F9EB3075E7DD00CCB8A9 /* CardURLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */; };
 		7FE7F9EC3075E7DD00CCB8A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DC3075E7DD00CCB8A9 /* ContentView.swift */; };
@@ -31,7 +42,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7FDA72B6306A3E3500BB842A /* MEETI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MEETI.app; path = "/Users/cmstudent/Documents/MEETI/build/Debug-iphoneos/MEETI.app"; sourceTree = "<absolute>"; };
+		7F33F0323078B5FD00BDD148 /* MEETI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEETI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F33F0333078B90D00BDD148 /* MEETIStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MEETIStyle.swift; sourceTree = "<group>"; };
+		7F33F0353078B9BB00BDD148 /* BestMatchCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestMatchCalculator.swift; sourceTree = "<group>"; };
+		7F33F0373078BABA00BDD148 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		7F33F0383078BABA00BDD148 /* CompatibilityCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompatibilityCalculator.swift; sourceTree = "<group>"; };
+		7F33F0393078BABA00BDD148 /* InterestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestData.swift; sourceTree = "<group>"; };
+		7F33F03A3078BABA00BDD148 /* InterestSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelection.swift; sourceTree = "<group>"; };
+		7F33F03B3078BABA00BDD148 /* MBTICalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTICalculator.swift; sourceTree = "<group>"; };
+		7F33F03C3078BABA00BDD148 /* MBTIDiagnosisSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTIDiagnosisSession.swift; sourceTree = "<group>"; };
+		7F33F03D3078BABA00BDD148 /* MBTIQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTIQuestion.swift; sourceTree = "<group>"; };
+		7F33F03E3078BABA00BDD148 /* MBTITypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTITypeData.swift; sourceTree = "<group>"; };
+		7F33F03F3078BABA00BDD148 /* MBTITypePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTITypePickerView.swift; sourceTree = "<group>"; };
 		7FE7F9D93075E7DD00CCB8A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardView.swift; sourceTree = "<group>"; };
 		7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardURLBuilder.swift; sourceTree = "<group>"; };
@@ -70,12 +92,24 @@
 			isa = PBXGroup;
 			children = (
 				7FE7F9E93075E7DD00CCB8A9 /* MEETI */,
+				7F33F0323078B5FD00BDD148 /* MEETI.app */,
 			);
 			sourceTree = "<group>";
 		};
 		7FE7F9E93075E7DD00CCB8A9 /* MEETI */ = {
 			isa = PBXGroup;
 			children = (
+				7F33F0373078BABA00BDD148 /* CameraPicker.swift */,
+				7F33F0383078BABA00BDD148 /* CompatibilityCalculator.swift */,
+				7F33F0393078BABA00BDD148 /* InterestData.swift */,
+				7F33F03A3078BABA00BDD148 /* InterestSelection.swift */,
+				7F33F03B3078BABA00BDD148 /* MBTICalculator.swift */,
+				7F33F03C3078BABA00BDD148 /* MBTIDiagnosisSession.swift */,
+				7F33F03D3078BABA00BDD148 /* MBTIQuestion.swift */,
+				7F33F03E3078BABA00BDD148 /* MBTITypeData.swift */,
+				7F33F03F3078BABA00BDD148 /* MBTITypePickerView.swift */,
+				7F33F0353078B9BB00BDD148 /* BestMatchCalculator.swift */,
+				7F33F0333078B90D00BDD148 /* MEETIStyle.swift */,
 				7FE7F9D93075E7DD00CCB8A9 /* Assets.xcassets */,
 				7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */,
 				7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */,
@@ -136,7 +170,7 @@
 			packageProductDependencies = (
 			);
 			productName = MEETI;
-			productReference = 7FDA72B6306A3E3500BB842A /* MEETI.app */;
+			productReference = 7F33F0323078B5FD00BDD148 /* MEETI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -194,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F33F0343078B90D00BDD148 /* MEETIStyle.swift in Sources */,
 				7FE7F9EA3075E7DD00CCB8A9 /* BusinessCardView.swift in Sources */,
 				7FE7F9EB3075E7DD00CCB8A9 /* CardURLBuilder.swift in Sources */,
 				7FE7F9EC3075E7DD00CCB8A9 /* ContentView.swift in Sources */,
@@ -201,9 +236,19 @@
 				7FE7F9EE3075E7DD00CCB8A9 /* MatchResultView.swift in Sources */,
 				7FE7F9EF3075E7DD00CCB8A9 /* MBTIQuestionView.swift in Sources */,
 				7FE7F9F03075E7DD00CCB8A9 /* MBTIResultView.swift in Sources */,
+				7F33F0403078BABA00BDD148 /* CameraPicker.swift in Sources */,
+				7F33F0413078BABA00BDD148 /* MBTICalculator.swift in Sources */,
+				7F33F0423078BABA00BDD148 /* CompatibilityCalculator.swift in Sources */,
+				7F33F0433078BABA00BDD148 /* InterestSelection.swift in Sources */,
+				7F33F0443078BABA00BDD148 /* InterestData.swift in Sources */,
+				7F33F0453078BABA00BDD148 /* MBTIQuestion.swift in Sources */,
+				7F33F0463078BABA00BDD148 /* MBTITypeData.swift in Sources */,
+				7F33F0473078BABA00BDD148 /* MBTIDiagnosisSession.swift in Sources */,
+				7F33F0483078BABA00BDD148 /* MBTITypePickerView.swift in Sources */,
 				7FE7F9F13075E7DD00CCB8A9 /* MEETIApp.swift in Sources */,
 				7FE7F9F23075E7DD00CCB8A9 /* Participant.swift in Sources */,
 				7FE7F9F33075E7DD00CCB8A9 /* PartnerCardView.swift in Sources */,
+				7F33F0363078B9BB00BDD148 /* BestMatchCalculator.swift in Sources */,
 				7FE7F9F43075E7DD00CCB8A9 /* ProfileInputView.swift in Sources */,
 				7FE7F9F53075E7DD00CCB8A9 /* QRCodeGenerator.swift in Sources */,
 				7FE7F9F63075E7DD00CCB8A9 /* QRCodeView.swift in Sources */,
@@ -343,9 +388,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9348HVV9UQ;
+				DEVELOPMENT_TEAM = 4R79V9P273;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "プロフィール写真を撮影して自己紹介カードに表示するためにカメラを使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -356,7 +402,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.jec.cm0113.MEETI;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.jec.cm0125.MEETI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -375,9 +421,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9348HVV9UQ;
+				DEVELOPMENT_TEAM = 4R79V9P273;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "プロフィール写真を撮影して自己紹介カードに表示するためにカメラを使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -388,7 +435,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.jec.cm0113.MEETI;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.jec.cm0125.MEETI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

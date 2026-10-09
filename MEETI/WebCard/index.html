@@ -1,44 +1,54 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-        <title>Web名刺</title>
+    <title>MEETI｜あなたの名刺</title>
 
-        <link rel="stylesheet" href="style.css">
-        <script src="script.js" defer></script>
-    </head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
 
 <body>
-
     <main class="card">
+        <header class="card-header">
+            <p class="number" id="number">No.037</p>
+            <p class="greeting">
+                よろしく<br>お願いします！ ♡
+            </p>
+        </header>
 
-        <h1 class="logo">MEETI</h1>
+        <div class="profile">
+            <img
+                src="images/IMG.jpg"
+                alt="プロフィール画像"
+                class="profile-image"
+                id="profile-image"
+            >
 
-        <p class="number" id="number">>No.037</p>
+            <h1 class="name" id="name">YUNA</h1>
+            <p class="mbti" id="mbti">ENFJ / 主人公タイプ</p>
+        </div>
 
-        <img src="images/IMG.jpg"
-                 alt="YUNAのプロフィール写真"
-                 class="profile.image"
-        >
+        <div class="interests" id="interests">
+            <span>音楽</span>
+            <span>旅行</span>
+            <span>カフェ</span>
+        </div>
 
-    <h2 class="name" id="name">YUNA</h2>
+        <section class="message-box" aria-label="ひとこと">
+            <p class="message-label">ひとこと</p>
+            <p class="message" id="message">
+                話しかけてください！
+            </p>
+        </section>
 
-    <p class="mbti" id="mbti">ENFJ / 主人公タイプ</p>
-
-    <div class="interests" id="interests">
-        <span>音楽</span>
-        <span>旅行</span>
-        <span>カフェ</span>
-    </div>
-
-    <p class="message" id="message">話しかけてください！</p>
-
-    <p class="footer">❀ MEETI ❀</p>
-
+        <footer class="footer">
+            <p class="logo">MEETI.</p>
+            <p class="tagline">Meet your type.</p>
+        </footer>
     </main>
-
 </body>
-
 </html>

@@ -1,142 +1,163 @@
-/* ページ全体 */
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 24px 16px;
-
-    background-color: #f1eee5;
-
-    font-family: sans-serif;
-    color: #343b35;
-
-    box-sizing: border-box;
     min-height: 100vh;
+    background: #f8f6ef;
+    color: #354139;
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
 }
 
-/* 名刺全体 */
 .card {
     width: 100%;
-    max-width: 350px;
-
+    max-width: 390px;
     margin: 0 auto;
-    padding: 25px 20px;
-
-    background-color: #faf8f2;
+    padding: 24px 20px;
+    background: #fffefd;
+    border: 1px solid #e2e7df;
     border-radius: 24px;
-
     text-align: center;
-    box-sizing: border-box;
 }
 
-/* MEETIロゴ */
-.logo {
-    color: #667568;
-    font-size: 25px;
-    font-weight: normal;
-    letter-spacing: 5px;
-    margin-bottom: 25px;
-}
-
-/* 参加者番号 */
-.number {
-    color: #8a857b;
-    font-size: 13px;
-    margin-bottom: 15px;
-}
-
-/* プロフィール画像の仮表示 */
-/* .profile-image {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto;
-    background-color: #e8e2d8;
-    border-radius: 15px;
-
+.card-header {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 22px;
+}
 
-    color: #a49b8c;
-    font-size: 60px;
-} */
+.number {
+    margin: 0;
+    color: #71947b;
+    font-size: 22px;
+    font-weight: 600;
+}
 
-/* プロフィール写真 */
-.profile-iamge {
-    width: 140px;
-    height: 140px;
+.greeting {
+    margin: 0;
+    color: #839184;
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: left;
+    transform: rotate(-8deg);
+}
 
+.profile-image {
     display: block;
+    width: 220px;
+    max-width: 100%;
+    height: 220px;
     margin: 0 auto;
-
-    object-fit: cover;
-    border-radius: 15px;
+    object-fit: contain;
+    background: #f7f4ea;
+    border-radius: 22px;
 }
 
-/* 名前 */
 .name {
-    font-size: 27px;
-    letter-spacing: 3px;
-    margin-bottom: 5px;
+    margin: 24px 0 8px;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    overflow-wrap: anywhere;
 }
 
-/* MBTI */
 .mbti {
-    color: #777d70;
-    font-size: 14px;
-    margin-top: 0;
+    margin: 0;
+    color: #71947b;
+    font-size: 15px;
 }
 
-/* 趣味 */
 .interests {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
-    margin: 20px 0;
+    margin: 26px 0;
 }
 
 .interests span {
-    background-color: #f0e8e1;
-    color: #766b60;
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 12px;
+    max-width: 100%;
+    padding: 9px 14px;
+    border-radius: 24px;
+    background: #f7e5e3;
+    font-size: 13px;
+    overflow-wrap: anywhere;
 }
 
-/* 自己紹介 */
+.interests span:nth-child(3n + 2) {
+    background: #e3eef1;
+}
+
+.interests span:nth-child(3n + 3) {
+    background: #f2ebdb;
+}
+
+.message-box {
+    position: relative;
+    padding: 16px;
+    background: #faf8f4;
+    border-radius: 18px;
+}
+
+.message-label {
+    margin: 0 0 12px;
+    color: #71947b;
+    font-size: 13px;
+    text-align: left;
+}
+
+.message-label::before {
+    content: "●";
+    margin-right: 8px;
+}
+
 .message {
-    font-size: 14px;
-    margin: 25px 0;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
-/* 下部ロゴ */
 .footer {
-    color: #a0a18e;
-    font-size: 12px;
-    letter-spacing: 3px;
     margin-top: 30px;
+    padding: 12px 0;
+    color: #71947b;
 }
 
+.logo {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 5px;
+}
 
-/* スマートフォン向けの調整 */
-@media screen and (max-width: 480px) {
+.tagline {
+    margin: 8px 0 0;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 360px) {
     body {
-        padding: 20px 12px;
+        padding: 16px 10px;
     }
 
     .card {
-        padding: 22px 16px;
-        border-radius: 20px;
+        padding: 20px 14px;
     }
 
-    .logo {
-        font-size: 23px;
+    .profile-image {
+        width: 190px;
+        height: 190px;
     }
+}
 
-    .name {
-        font-size: 25px;
-    }
-
-    .profile-iamge {
-        width: 130px;
-        height: 130px;
-    }
+.profile-image[hidden] {
+    display: none;
 }

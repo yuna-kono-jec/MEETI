@@ -1,34 +1,34 @@
-//
-//  PartnerCardView.swift
-//  MEETI
-//
-//  Created by ♡ on 2026/09/28.
-//
-
 import SwiftUI
 
 struct PartnerCardView: View {
+    var participant: Participant?
+    // QRコード表示まで引き継ぐ、現在操作している本人の参加者データ
+    var currentParticipant: Participant
     var body: some View {
-        VStack {
-            Text("MATCH CARD")
-
-            Text("No.012")
-
-            Text("たえちゃん")
-
-            Text("INFP")
-
-            Text("趣味・好きなもの")
-            Text("犬・カフェ・旅行")
-
-            Text("ひとこと")
-            Text("よろしくお願いします！")
-
-            Text("文化祭のどこかにいるかも！")
-        }//VStack end
+        // 相手の名刺を表示し、QR画面には従来どおり本人を渡します。
+        MEETIScreen(eyebrow: "07 / MATCH CARD", title: "気になる人の名刺", subtitle: "文化祭のどこかにいるかも！") {
+            if let participant = participant {
+                MEETIParticipantCard(participant: participant)
+                NavigationLink { QRCodeView(participant: currentParticipant) } label: {
+                    Label("自分の名刺を持ち帰る", systemImage: "qrcode")
+                }.buttonStyle(MEETIButtonStyle())
+            } else {
+                Text("参加者情報がありません").meetiCard()
+            }
+        }
     }
 }
 
 #Preview {
-    PartnerCardView()
+    PartnerCardView(
+        participant: nil,
+        // Previewで使う、現在操作している本人の仮データ
+        currentParticipant: Participant(
+            number: 1,
+            nickname: "ゆな",
+            mbti: "ENTJ",
+            interests: ["ゲーム", "犬", "旅行"],
+            message: "よろしく！"
+        )
+    )
 }
