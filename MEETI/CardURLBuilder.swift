@@ -14,7 +14,9 @@ struct CardURLBuilder {
     static func makeURL(from participant: Participant) -> URL? {
 
         // Web名刺のURLを指定する
-        var components = URLComponents(string: "https://tae-23.github.io/MEETI-WebCard/")
+        var components = URLComponents(
+            string: "https://yuna-kono-jec.github.io/MEETI/MEETI/WebCard/"
+        )
 
         components?.queryItems = [
             URLQueryItem(name: "number", value: String(participant.number)),
