@@ -34,11 +34,9 @@
 		7FE7F9F73075E7DD00CCB8A9 /* SampleParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E73075E7DD00CCB8A9 /* SampleParticipant.swift */; };
 		7FE7F9F83075E7DD00CCB8A9 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E83075E7DD00CCB8A9 /* StartView.swift */; };
 		7FE7F9F93075E7DD00CCB8A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9D93075E7DD00CCB8A9 /* Assets.xcassets */; };
-		7FE7FA013075E90100CCB8A9 /* profile.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FB3075E90100CCB8A9 /* profile.jpg */; };
 		7FE7FA023075E90100CCB8A9 /* script.js in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FE3075E90100CCB8A9 /* script.js */; };
 		7FE7FA033075E90100CCB8A9 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FF3075E90100CCB8A9 /* style.css */; };
 		7FE7FA043075E90100CCB8A9 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FD3075E90100CCB8A9 /* index.html */; };
-		7FE7FA053075E90100CCB8A9 /* IMG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FA3075E90100CCB8A9 /* IMG.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,8 +68,6 @@
 		7FE7F9E63075E7DD00CCB8A9 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		7FE7F9E73075E7DD00CCB8A9 /* SampleParticipant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleParticipant.swift; sourceTree = "<group>"; };
 		7FE7F9E83075E7DD00CCB8A9 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
-		7FE7F9FA3075E90100CCB8A9 /* IMG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG.jpg; sourceTree = "<group>"; };
-		7FE7F9FB3075E90100CCB8A9 /* profile.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = profile.jpg; sourceTree = "<group>"; };
 		7FE7F9FD3075E90100CCB8A9 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		7FE7F9FE3075E90100CCB8A9 /* script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = script.js; sourceTree = "<group>"; };
 		7FE7F9FF3075E90100CCB8A9 /* style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
@@ -134,8 +130,6 @@
 		7FE7F9FC3075E90100CCB8A9 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				7FE7F9FA3075E90100CCB8A9 /* IMG.jpg */,
-				7FE7F9FB3075E90100CCB8A9 /* profile.jpg */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -213,11 +207,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FE7F9F93075E7DD00CCB8A9 /* Assets.xcassets in Resources */,
-				7FE7FA013075E90100CCB8A9 /* profile.jpg in Resources */,
 				7FE7FA023075E90100CCB8A9 /* script.js in Resources */,
 				7FE7FA033075E90100CCB8A9 /* style.css in Resources */,
 				7FE7FA043075E90100CCB8A9 /* index.html in Resources */,
-				7FE7FA053075E90100CCB8A9 /* IMG.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
