@@ -8,33 +8,47 @@
 import SwiftUI
 
 struct BusinessCardView: View {
+    let participant: Participant
+    
     var body: some View {
-        VStack {
+        VStack (spacing: 16){
             Text("あなたの名刺")
             
-            Text("No.001")
+            Text(String(format: "No.%03d", participant.number))
             
-            Text("ゆな")
+            Text(participant.nickname)
             
-            Text("ENFJ")
+            Text(participant.mbti)
             
             Text("趣味・好きなもの")
-            Text("カフェ・犬・プログラミング")
+            Text(participant.interests.joined(separator: "・"))
             
             Text("ひとこと")
-            Text("よろしくお願いします！")
+            Text(participant.message)
             
             NavigationLink("QRコードを表示") {
-                QRCodeView()
+                QRCodeView(participant: participant)
             }
             
             NavigationLink("マッチングする") {
                 MatchingView()
             }
         }//VStack end
+        .padding()
     }//body end
 }//BusinessCardView end
 
 #Preview {
-    BusinessCardView()
+    NavigationStack {
+        BusinessCardView(
+            participant: Participant(
+                number: 37,
+                nickname: "TEST",
+                mbti: "INFP",
+                interests: ["ゲーム", "映画", "旅行"],
+                message: "話しかけてください！😊"
+            )
+        )
+    }
+    
 }

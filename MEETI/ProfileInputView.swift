@@ -11,6 +11,26 @@ struct ProfileInputView: View {
     @State private var nickname = ""
     @State private var interests = ""
     @State private var message = ""
+    
+    private func makeParticipant() -> Participant {
+        let interestsList = interests
+            .replacingOccurrences(of: "、", with: ",")
+            .replacingOccurrences(of: "，", with: ",")
+            .components(separatedBy: ",")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        
+        return Participant(
+            number: 37,
+            nickname: nickname.trimmingCharacters(
+                in: .whitespacesAndNewlines
+            ),
+            mbti: "",
+            interests: interestsList,
+            message: message
+        )
+    }
+    
     var body: some View {
         
         VStack(alignment: .leading) {
@@ -29,9 +49,16 @@ struct ProfileInputView: View {
                 .border(.gray)
                 .padding()
             
-            NavigationLink("次へ") {
-                MBTIQuestionView()
+            NavigationLink {
+                MBTIQuestionView(participant: makeParticipant())
+            } label: {
+                Text("次へ")
             }
+            .disabled(
+                nickname.trimmingCharacters(
+                    in: .whitespacesAndNewlines
+                ).isEmpty
+            )
             .padding()
                 
             
@@ -40,5 +67,7 @@ struct ProfileInputView: View {
 }
 
 #Preview {
-    ProfileInputView()
+    NavigationStack {
+        ProfileInputView()
+    }
 }

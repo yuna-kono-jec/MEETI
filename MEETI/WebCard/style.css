@@ -1,0 +1,142 @@
+/* ページ全体 */
+body {
+    margin: 0;
+    padding: 24px 16px;
+
+    background-color: #f1eee5;
+
+    font-family: sans-serif;
+    color: #343b35;
+
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+/* 名刺全体 */
+.card {
+    width: 100%;
+    max-width: 350px;
+
+    margin: 0 auto;
+    padding: 25px 20px;
+
+    background-color: #faf8f2;
+    border-radius: 24px;
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* MEETIロゴ */
+.logo {
+    color: #667568;
+    font-size: 25px;
+    font-weight: normal;
+    letter-spacing: 5px;
+    margin-bottom: 25px;
+}
+
+/* 参加者番号 */
+.number {
+    color: #8a857b;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+/* プロフィール画像の仮表示 */
+/* .profile-image {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+    background-color: #e8e2d8;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #a49b8c;
+    font-size: 60px;
+} */
+
+/* プロフィール写真 */
+.profile-iamge {
+    width: 140px;
+    height: 140px;
+
+    display: block;
+    margin: 0 auto;
+
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* 名前 */
+.name {
+    font-size: 27px;
+    letter-spacing: 3px;
+    margin-bottom: 5px;
+}
+
+/* MBTI */
+.mbti {
+    color: #777d70;
+    font-size: 14px;
+    margin-top: 0;
+}
+
+/* 趣味 */
+.interests {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.interests span {
+    background-color: #f0e8e1;
+    color: #766b60;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+/* 自己紹介 */
+.message {
+    font-size: 14px;
+    margin: 25px 0;
+}
+
+/* 下部ロゴ */
+.footer {
+    color: #a0a18e;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-top: 30px;
+}
+
+
+/* スマートフォン向けの調整 */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .card {
+        padding: 22px 16px;
+        border-radius: 20px;
+    }
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .name {
+        font-size: 25px;
+    }
+
+    .profile-iamge {
+        width: 130px;
+        height: 130px;
+    }
+}

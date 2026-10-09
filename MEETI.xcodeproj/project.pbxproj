@@ -6,17 +6,54 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXFileReference section */
-		7FDA72B6306A3E3500BB842A /* MEETI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEETI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
+/* Begin PBXBuildFile section */
+		7FE7F9EA3075E7DD00CCB8A9 /* BusinessCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */; };
+		7FE7F9EB3075E7DD00CCB8A9 /* CardURLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */; };
+		7FE7F9EC3075E7DD00CCB8A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DC3075E7DD00CCB8A9 /* ContentView.swift */; };
+		7FE7F9ED3075E7DD00CCB8A9 /* MatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DD3075E7DD00CCB8A9 /* MatchingView.swift */; };
+		7FE7F9EE3075E7DD00CCB8A9 /* MatchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DE3075E7DD00CCB8A9 /* MatchResultView.swift */; };
+		7FE7F9EF3075E7DD00CCB8A9 /* MBTIQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DF3075E7DD00CCB8A9 /* MBTIQuestionView.swift */; };
+		7FE7F9F03075E7DD00CCB8A9 /* MBTIResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E03075E7DD00CCB8A9 /* MBTIResultView.swift */; };
+		7FE7F9F13075E7DD00CCB8A9 /* MEETIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E13075E7DD00CCB8A9 /* MEETIApp.swift */; };
+		7FE7F9F23075E7DD00CCB8A9 /* Participant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E23075E7DD00CCB8A9 /* Participant.swift */; };
+		7FE7F9F33075E7DD00CCB8A9 /* PartnerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E33075E7DD00CCB8A9 /* PartnerCardView.swift */; };
+		7FE7F9F43075E7DD00CCB8A9 /* ProfileInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E43075E7DD00CCB8A9 /* ProfileInputView.swift */; };
+		7FE7F9F53075E7DD00CCB8A9 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E53075E7DD00CCB8A9 /* QRCodeGenerator.swift */; };
+		7FE7F9F63075E7DD00CCB8A9 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E63075E7DD00CCB8A9 /* QRCodeView.swift */; };
+		7FE7F9F73075E7DD00CCB8A9 /* SampleParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E73075E7DD00CCB8A9 /* SampleParticipant.swift */; };
+		7FE7F9F83075E7DD00CCB8A9 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9E83075E7DD00CCB8A9 /* StartView.swift */; };
+		7FE7F9F93075E7DD00CCB8A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9D93075E7DD00CCB8A9 /* Assets.xcassets */; };
+		7FE7FA013075E90100CCB8A9 /* profile.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FB3075E90100CCB8A9 /* profile.jpg */; };
+		7FE7FA023075E90100CCB8A9 /* script.js in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FE3075E90100CCB8A9 /* script.js */; };
+		7FE7FA033075E90100CCB8A9 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FF3075E90100CCB8A9 /* style.css */; };
+		7FE7FA043075E90100CCB8A9 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FD3075E90100CCB8A9 /* index.html */; };
+		7FE7FA053075E90100CCB8A9 /* IMG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FE7F9FA3075E90100CCB8A9 /* IMG.jpg */; };
+/* End PBXBuildFile section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		7FDA72B8306A3E3500BB842A /* MEETI */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MEETI;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
+/* Begin PBXFileReference section */
+		7FDA72B6306A3E3500BB842A /* MEETI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MEETI.app; path = "/Users/cmstudent/Documents/MEETI/build/Debug-iphoneos/MEETI.app"; sourceTree = "<absolute>"; };
+		7FE7F9D93075E7DD00CCB8A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardView.swift; sourceTree = "<group>"; };
+		7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardURLBuilder.swift; sourceTree = "<group>"; };
+		7FE7F9DC3075E7DD00CCB8A9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7FE7F9DD3075E7DD00CCB8A9 /* MatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingView.swift; sourceTree = "<group>"; };
+		7FE7F9DE3075E7DD00CCB8A9 /* MatchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchResultView.swift; sourceTree = "<group>"; };
+		7FE7F9DF3075E7DD00CCB8A9 /* MBTIQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTIQuestionView.swift; sourceTree = "<group>"; };
+		7FE7F9E03075E7DD00CCB8A9 /* MBTIResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTIResultView.swift; sourceTree = "<group>"; };
+		7FE7F9E13075E7DD00CCB8A9 /* MEETIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MEETIApp.swift; sourceTree = "<group>"; };
+		7FE7F9E23075E7DD00CCB8A9 /* Participant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participant.swift; sourceTree = "<group>"; };
+		7FE7F9E33075E7DD00CCB8A9 /* PartnerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerCardView.swift; sourceTree = "<group>"; };
+		7FE7F9E43075E7DD00CCB8A9 /* ProfileInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputView.swift; sourceTree = "<group>"; };
+		7FE7F9E53075E7DD00CCB8A9 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
+		7FE7F9E63075E7DD00CCB8A9 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		7FE7F9E73075E7DD00CCB8A9 /* SampleParticipant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleParticipant.swift; sourceTree = "<group>"; };
+		7FE7F9E83075E7DD00CCB8A9 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		7FE7F9FA3075E90100CCB8A9 /* IMG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG.jpg; sourceTree = "<group>"; };
+		7FE7F9FB3075E90100CCB8A9 /* profile.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = profile.jpg; sourceTree = "<group>"; };
+		7FE7F9FD3075E90100CCB8A9 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		7FE7F9FE3075E90100CCB8A9 /* script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = script.js; sourceTree = "<group>"; };
+		7FE7F9FF3075E90100CCB8A9 /* style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
+/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		7FDA72B3306A3E3500BB842A /* Frameworks */ = {
@@ -32,17 +69,52 @@
 		7FDA72AD306A3E3500BB842A = {
 			isa = PBXGroup;
 			children = (
-				7FDA72B8306A3E3500BB842A /* MEETI */,
-				7FDA72B7306A3E3500BB842A /* Products */,
+				7FE7F9E93075E7DD00CCB8A9 /* MEETI */,
 			);
 			sourceTree = "<group>";
 		};
-		7FDA72B7306A3E3500BB842A /* Products */ = {
+		7FE7F9E93075E7DD00CCB8A9 /* MEETI */ = {
 			isa = PBXGroup;
 			children = (
-				7FDA72B6306A3E3500BB842A /* MEETI.app */,
+				7FE7F9D93075E7DD00CCB8A9 /* Assets.xcassets */,
+				7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */,
+				7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */,
+				7FE7F9DC3075E7DD00CCB8A9 /* ContentView.swift */,
+				7FE7F9DD3075E7DD00CCB8A9 /* MatchingView.swift */,
+				7FE7F9DE3075E7DD00CCB8A9 /* MatchResultView.swift */,
+				7FE7F9DF3075E7DD00CCB8A9 /* MBTIQuestionView.swift */,
+				7FE7F9E03075E7DD00CCB8A9 /* MBTIResultView.swift */,
+				7FE7F9E13075E7DD00CCB8A9 /* MEETIApp.swift */,
+				7FE7F9E23075E7DD00CCB8A9 /* Participant.swift */,
+				7FE7F9E33075E7DD00CCB8A9 /* PartnerCardView.swift */,
+				7FE7F9E43075E7DD00CCB8A9 /* ProfileInputView.swift */,
+				7FE7F9E53075E7DD00CCB8A9 /* QRCodeGenerator.swift */,
+				7FE7F9E63075E7DD00CCB8A9 /* QRCodeView.swift */,
+				7FE7F9E73075E7DD00CCB8A9 /* SampleParticipant.swift */,
+				7FE7F9E83075E7DD00CCB8A9 /* StartView.swift */,
+				7FE7FA003075E90100CCB8A9 /* WebCard */,
 			);
-			name = Products;
+			path = MEETI;
+			sourceTree = "<group>";
+		};
+		7FE7F9FC3075E90100CCB8A9 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				7FE7F9FA3075E90100CCB8A9 /* IMG.jpg */,
+				7FE7F9FB3075E90100CCB8A9 /* profile.jpg */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		7FE7FA003075E90100CCB8A9 /* WebCard */ = {
+			isa = PBXGroup;
+			children = (
+				7FE7F9FC3075E90100CCB8A9 /* images */,
+				7FE7F9FD3075E90100CCB8A9 /* index.html */,
+				7FE7F9FE3075E90100CCB8A9 /* script.js */,
+				7FE7F9FF3075E90100CCB8A9 /* style.css */,
+			);
+			path = WebCard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,9 +131,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				7FDA72B8306A3E3500BB842A /* MEETI */,
 			);
 			name = MEETI;
 			packageProductDependencies = (
@@ -95,7 +164,7 @@
 			mainGroup = 7FDA72AD306A3E3500BB842A;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 7FDA72B7306A3E3500BB842A /* Products */;
+			productRefGroup = 7FDA72AD306A3E3500BB842A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -109,6 +178,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FE7F9F93075E7DD00CCB8A9 /* Assets.xcassets in Resources */,
+				7FE7FA013075E90100CCB8A9 /* profile.jpg in Resources */,
+				7FE7FA023075E90100CCB8A9 /* script.js in Resources */,
+				7FE7FA033075E90100CCB8A9 /* style.css in Resources */,
+				7FE7FA043075E90100CCB8A9 /* index.html in Resources */,
+				7FE7FA053075E90100CCB8A9 /* IMG.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +194,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FE7F9EA3075E7DD00CCB8A9 /* BusinessCardView.swift in Sources */,
+				7FE7F9EB3075E7DD00CCB8A9 /* CardURLBuilder.swift in Sources */,
+				7FE7F9EC3075E7DD00CCB8A9 /* ContentView.swift in Sources */,
+				7FE7F9ED3075E7DD00CCB8A9 /* MatchingView.swift in Sources */,
+				7FE7F9EE3075E7DD00CCB8A9 /* MatchResultView.swift in Sources */,
+				7FE7F9EF3075E7DD00CCB8A9 /* MBTIQuestionView.swift in Sources */,
+				7FE7F9F03075E7DD00CCB8A9 /* MBTIResultView.swift in Sources */,
+				7FE7F9F13075E7DD00CCB8A9 /* MEETIApp.swift in Sources */,
+				7FE7F9F23075E7DD00CCB8A9 /* Participant.swift in Sources */,
+				7FE7F9F33075E7DD00CCB8A9 /* PartnerCardView.swift in Sources */,
+				7FE7F9F43075E7DD00CCB8A9 /* ProfileInputView.swift in Sources */,
+				7FE7F9F53075E7DD00CCB8A9 /* QRCodeGenerator.swift in Sources */,
+				7FE7F9F63075E7DD00CCB8A9 /* QRCodeView.swift in Sources */,
+				7FE7F9F73075E7DD00CCB8A9 /* SampleParticipant.swift in Sources */,
+				7FE7F9F83075E7DD00CCB8A9 /* StartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
