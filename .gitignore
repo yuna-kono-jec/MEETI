@@ -1,0 +1,3 @@
+# macOSが自動で作る設定ファイルはGitに含めません。
+.DS_Store
+**/.DS_Store
