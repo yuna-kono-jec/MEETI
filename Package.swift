@@ -25,7 +25,11 @@ let package = Package(
                 "QRCodeView.swift",
                 "MatchingView.swift",
                 "MatchResultView.swift",
-                "PartnerCardView.swift"
+                "PartnerCardView.swift",
+                "CardURLBuilder.swift",
+                "MEETIStyle.swift",
+                "QRCodeGenerator.swift",
+                "WebCard"
             ],
             sources: [
                 "Participant.swift",

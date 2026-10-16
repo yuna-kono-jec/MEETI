@@ -10,7 +10,7 @@ import Foundation
 struct CardURLBuilder {
 
     // URLを作る処理
-    // SampleParticipantの情報を受け取って、URLを作る関数
+    // Participantの情報を受け取って、URLを作る関数
     static func makeURL(from participant: Participant) -> URL? {
 
         // Web名刺のURLを指定する
@@ -29,4 +29,3 @@ struct CardURLBuilder {
         return components?.url
     }
 }
-

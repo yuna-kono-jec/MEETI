@@ -18,6 +18,8 @@ struct MBTIResultView: View {
     var nickname: String
     var interests: [String]
     var message: String
+    var gender: String
+    var ageGroup: String
     var mbti: String
     var photoData: Data?
     
@@ -32,6 +34,8 @@ struct MBTIResultView: View {
             mbti: mbti,
             interests: interests,
             message: message,
+            gender: gender,
+            ageGroup: ageGroup,
             photoData: photoData
         )
 
@@ -66,6 +70,8 @@ struct MBTIResultView: View {
         nickname: "ゆな",
         interests: ["ゲーム", "犬", "旅行"],
         message: "よろしく！",
+        gender: "女性",
+        ageGroup: "20〜29歳",
         mbti: "ENTJ",
         photoData: nil
     )

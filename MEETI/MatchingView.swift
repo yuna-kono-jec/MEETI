@@ -7,10 +7,30 @@ struct MatchingView: View {
     var participant: Participant
 
     @State private var result: BestMatchResult?
+    @State private var preferredGender = "どちらでも"
+    @State private var preferredAgeGroup = "指定しない"
 
     var body: some View {
         // 計算の実行タイミングを維持し、計算完了後は準備完了の表示にします。
         MEETIScreen(eyebrow: "05 / MATCHING", title: "出会いを見つけよう", subtitle: "MBTIと好きなことから、相性のいい人を探します。") {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("マッチング相手の希望").font(.headline)
+
+                Picker("性別", selection: $preferredGender) {
+                    ForEach(matchingGenderOptions, id: \.self) { option in
+                        Text(option).tag(option)
+                    }
+                }
+                .pickerStyle(.segmented)
+
+                Picker("年代", selection: $preferredAgeGroup) {
+                    ForEach(matchingAgeGroupOptions, id: \.self) { option in
+                        Text(option).tag(option)
+                    }
+                }
+            }
+            .meetiCard()
+
             VStack(spacing: 28) {
                 // 写真データがなくても既存タイプ画像で出会いのペアを表現します。
                 HStack(spacing: 16) {
@@ -32,12 +52,20 @@ struct MatchingView: View {
         .onAppear {
             calculateBestMatch()
         }
+        .onChange(of: preferredGender) {
+            calculateBestMatch()
+        }
+        .onChange(of: preferredAgeGroup) {
+            calculateBestMatch()
+        }
     }
 
     private func calculateBestMatch() {
         result = BestMatchCalculator.findBestMatches(
             participant: participant,
-            modelContext: modelContext
+            modelContext: modelContext,
+            preferredGender: preferredGender,
+            preferredAgeGroup: preferredAgeGroup
         )
     }
 }
@@ -49,7 +77,9 @@ struct MatchingView: View {
             nickname: "ゆな",
             mbti: "ENTJ",
             interests: ["ゲーム", "犬", "旅行"],
-            message: "よろしく！"
+            message: "よろしく！",
+            gender: "女性",
+            ageGroup: "20〜29歳"
         )
     )
 }

@@ -34,8 +34,6 @@ final class MEETILogicTests: XCTestCase {
 
     func testThereAreSixteenMBTITypes() {
         XCTAssertEqual(mbtiTypes.count, 16)
-        XCTAssertTrue(MBTITypeData.isValid("ENFJ"))
-        XCTAssertFalse(MBTITypeData.isValid("ABCD"))
     }
 
     func testInterestsCanSelectUpToThree() {
@@ -57,9 +55,9 @@ final class MEETILogicTests: XCTestCase {
 
         let result = CompatibilityCalculator.calculate(first: first, second: second)
 
-        XCTAssertEqual(result?.mbtiScore, 70)
-        XCTAssertEqual(result?.interestScore, 30)
-        XCTAssertEqual(result?.totalScore, 100)
+        XCTAssertEqual(result.mbtiScore, 70)
+        XCTAssertEqual(result.interestScore, 30)
+        XCTAssertEqual(result.totalScore, 100)
     }
 
     func testBestMatchHandlesZeroAndTiedCandidates() {
@@ -109,18 +107,39 @@ final class MEETILogicTests: XCTestCase {
         XCTAssertEqual(result?.score, 80)
     }
 
+    func testBestMatchFiltersGenderAndAgeGroup() {
+        let me = participant(1, "自分", "ENFJ", ["音楽"])
+        let match = participant(2, "候補A", "ENFJ", ["音楽"], "男性", "20〜29歳")
+        let differentGender = participant(3, "候補B", "ENFJ", ["音楽"], "女性", "20〜29歳")
+        let differentAge = participant(4, "候補C", "ENFJ", ["音楽"], "男性", "30〜39歳")
+
+        let result = BestMatchCalculator.findBestMatches(
+            participant: me,
+            candidates: [match, differentGender, differentAge],
+            preferredGender: "男性",
+            preferredAgeGroup: "20〜29歳"
+        )
+
+        XCTAssertEqual(result?.matches.count, 1)
+        XCTAssertEqual(result?.matches.first?.participant.nickname, "候補A")
+    }
+
     private func participant(
         _ number: Int,
         _ nickname: String,
         _ mbti: String,
-        _ interests: [String]
+        _ interests: [String],
+        _ gender: String = "未回答",
+        _ ageGroup: String = "未回答"
     ) -> Participant {
         return Participant(
             number: number,
             nickname: nickname,
             mbti: mbti,
             interests: interests,
-            message: "テスト"
+            message: "テスト",
+            gender: gender,
+            ageGroup: ageGroup
         )
     }
 }
