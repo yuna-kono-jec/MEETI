@@ -23,7 +23,9 @@ struct BestMatchCalculator {
     // 一番相性の良い参加者を探す
     static func findBestMatches(
         participant: Participant,
-        candidates: [Participant]
+        candidates: [Participant],
+        preferredGender: String = "どちらでも",
+        preferredAgeGroup: String = "指定しない"
     ) -> BestMatchResult? {
 
         // 一番相性の良い人を入れる
@@ -40,14 +42,21 @@ struct BestMatchCalculator {
                 continue
             }
 
-            // 2人の相性を計算
-            guard let result = CompatibilityCalculator.calculate(
-                first: participant,
-                second: candidate
-            ) else {
-                // MBTIが不正な候補は飛ばす
+            // 希望した性別と違う参加者は候補から外す
+            if preferredGender != "どちらでも" && candidate.gender != preferredGender {
                 continue
             }
+
+            // 希望した年代と違う参加者は候補から外す
+            if preferredAgeGroup != "指定しない" && candidate.ageGroup != preferredAgeGroup {
+                continue
+            }
+
+            // 2人の相性を計算
+            let result = CompatibilityCalculator.calculate(
+                first: participant,
+                second: candidate
+            )
 
             // 今までの最高点より高かった場合
             if result.totalScore > bestScore {
@@ -86,7 +95,9 @@ struct BestMatchCalculator {
     // SwiftDataに保存されている全参加者からBEST MATCHを探す
     static func findBestMatches(
         participant: Participant,
-        modelContext: ModelContext
+        modelContext: ModelContext,
+        preferredGender: String = "どちらでも",
+        preferredAgeGroup: String = "指定しない"
     ) -> BestMatchResult? {
 
         let descriptor = FetchDescriptor<Participant>()
@@ -98,7 +109,9 @@ struct BestMatchCalculator {
 
         return findBestMatches(
             participant: participant,
-            candidates: allParticipants
+            candidates: allParticipants,
+            preferredGender: preferredGender,
+            preferredAgeGroup: preferredAgeGroup
         )
     }
 }

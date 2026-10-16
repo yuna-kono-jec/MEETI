@@ -11,6 +11,8 @@ struct MBTIQuestionView: View {
     var nickname: String
     var interests: [String]
     var message: String
+    var gender: String
+    var ageGroup: String
     var photoData: Data?
 
     @State private var selectedMethod = "12問で診断"
@@ -45,6 +47,8 @@ struct MBTIQuestionView: View {
                 nickname: nickname,
                 interests: interests,
                 message: message,
+                gender: gender,
+                ageGroup: ageGroup,
                 mbti: resultMBTI,
                 photoData: photoData
             )
@@ -117,6 +121,8 @@ struct MBTIQuestionView: View {
         nickname: "ゆな",
         interests: ["ゲーム", "犬", "旅行"],
         message: "よろしく！",
+        gender: "女性",
+        ageGroup: "20〜29歳",
         photoData: nil
     )
 }

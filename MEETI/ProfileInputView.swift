@@ -13,28 +13,12 @@ struct ProfileInputView: View {
     @State private var nickname = ""
     @State private var interests: [String] = []
     @State private var message = ""
+    @State private var gender = "男性"
+    @State private var ageGroup = "10〜19歳"
     @State private var photoData: Data?
     @State private var showPhotoNotice = false
     @State private var showCamera = false
     @State private var showCameraUnavailable = false
-    
-    
-    let interestOptions = [
-        "音楽",
-        "旅行",
-        "カフェ",
-        "映画",
-        "アニメ",
-        "スポーツ",
-        "読書",
-        "ゲーム",
-        "ショッピング",
-        "アウトドア",
-        "グルメ",
-        "犬",
-        "猫",
-        "アート"
-    ]
     
     // 選択上限と次へ進める条件は既存のまま、入力欄をカード化します。
     var body: some View {
@@ -77,6 +61,22 @@ struct ProfileInputView: View {
                 TextField("ニックネームを入力", text: $nickname).padding(14)
                     .background(MEETIStyle.ivory, in: RoundedRectangle(cornerRadius: 12))
             }.meetiCard()
+            VStack(alignment: .leading, spacing: 14) {
+                Text("プロフィール").font(.headline)
+
+                Picker("性別", selection: $gender) {
+                    ForEach(genderOptions, id: \.self) { option in
+                        Text(option).tag(option)
+                    }
+                }
+                .pickerStyle(.segmented)
+
+                Picker("年代", selection: $ageGroup) {
+                    ForEach(ageGroupOptions, id: \.self) { option in
+                        Text(option).tag(option)
+                    }
+                }
+            }.meetiCard()
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
                     Text("好きなこと").font(.headline)
@@ -114,6 +114,8 @@ struct ProfileInputView: View {
                     nickname: nickname,
                     interests: interests,
                     message: message,
+                    gender: gender,
+                    ageGroup: ageGroup,
                     photoData: photoData
                 )
             } label: { Label("MBTIを決める", systemImage: "arrow.right") }

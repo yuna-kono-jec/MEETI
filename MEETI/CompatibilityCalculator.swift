@@ -14,12 +14,7 @@ struct CompatibilityCalculator {
     static func calculate(
         first: Participant,
         second: Participant
-    ) -> CompatibilityResult? {
-
-        // 16タイプ以外のMBTIは計算しない
-        if !MBTITypeData.isValid(first.mbti) || !MBTITypeData.isValid(second.mbti) {
-            return nil
-        }
+    ) -> CompatibilityResult {
 
         var mbtiScore = 0
 
