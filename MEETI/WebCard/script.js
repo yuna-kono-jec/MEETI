@@ -1,78 +1,6 @@
-function updateCard() {
-    const params = new URLSearchParams(window.location.search);
+const PHOTO_ENDPOINT =
+    "https://idyapfatxwaysidnjnzm.supabase.co/functions/v1/meeti-photo-url";
 
-    const name = params.get("name");
-    const mbti = params.get("mbti");
-    const number = params.get("number");
-    const interests = params.get("interests");
-    const message = params.get("message");
-
-    function setText(id, value) {
-        const element = document.getElementById(id);
-
-        if (element && value !== null) {
-            element.textContent = value;
-        }
-    }
-
-    setText("name", name);
-    setText("message", message);
-
-    if (number !== null) {
-        setText("number", `No.${number.padStart(3, "0")}`);
-    }
-
-    if (mbti !== null) {
-        const type = mbti.trim().toUpperCase();
-
-        setText(
-            "mbti",
-            type === "INFP" ? "INFP / 仲介者タイプ" : type
-        );
-
-        const image = document.getElementById("profile-image");
-
-        if (image) {
-            // 固定の人物写真を表示しない
-            image.removeAttribute("src");
-            image.hidden = true;
-
-            if (type === "INFP") {
-                image.onload = function () {
-                    image.hidden = false;
-                };
-
-                image.onerror = function () {
-                    image.hidden = true;
-                };
-
-                image.alt = "INFPのイラスト";
-                image.src = "images/INFP.png";
-            }
-        }
-    }
-
-    const interestsElement = document.getElementById("interests");
-
-    if (interestsElement && interests !== null) {
-        interestsElement.replaceChildren();
-
-        interests.split(",").forEach(function (interest) {
-            const text = interest.trim();
-            if (!text) return;
-
-            const span = document.createElement("span");
-            span.textContent = text;
-            interestsElement.appendChild(span);
-        });
-    }
-}
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", updateCard);
-} else {
-    updateCard();
-}
 function updateCard() {
     const params = new URLSearchParams(window.location.search);
 
@@ -112,7 +40,6 @@ function updateCard() {
         setText("number", `No.${number.padStart(3, "0")}`);
     }
 
-    // URLにMBTIがない場合は、確認用にINFPを表示
     const type = (params.get("mbti") ?? "INFP")
         .trim()
         .toUpperCase();
@@ -130,20 +57,33 @@ function updateCard() {
     const image = document.getElementById("profile-image");
 
     if (image) {
+        // まずMBTI画像を表示する
+        image.onload = () => {
+            image.hidden = false;
+        };
+
+        image.onerror = () => {
+            image.hidden = true;
+        };
+
         image.hidden = true;
-        image.removeAttribute("src");
+        image.alt = validType ? `${type}のイラスト` : "";
 
         if (validType) {
-            image.onload = function () {
-                image.hidden = false;
-            };
-
-            image.onerror = function () {
-                image.hidden = true;
-            };
-
-            image.alt = `${type}のイラスト`;
             image.src = `images/${type}.png`;
+        } else {
+            image.removeAttribute("src");
+        }
+
+        // 写真用トークンはURLの#以降から取得する
+        const fragment = new URLSearchParams(
+            window.location.hash.slice(1)
+        );
+
+        const photoToken = fragment.get("photoToken");
+
+        if (photoToken && /^[0-9a-f]{64}$/.test(photoToken)) {
+            void loadPersonalPhoto(image, photoToken);
         }
     }
 
@@ -153,7 +93,7 @@ function updateCard() {
     if (interestsElement && interests !== null) {
         interestsElement.replaceChildren();
 
-        interests.split(",").forEach(function (interest) {
+        interests.split(",").forEach((interest) => {
             const text = interest.trim();
             if (!text) return;
 
@@ -161,6 +101,62 @@ function updateCard() {
             span.textContent = text;
             interestsElement.appendChild(span);
         });
+    }
+}
+
+async function loadPersonalPhoto(image, token) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    try {
+        const response = await fetch(PHOTO_ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token }),
+            cache: "no-store",
+            credentials: "omit",
+            referrerPolicy: "no-referrer",
+            signal: controller.signal
+        });
+
+        if (!response.ok) return;
+
+        const result = await response.json();
+
+        // 写真なし・期限切れならMBTI画像を維持
+        if (typeof result.photoUrl !== "string") return;
+
+        const photoUrl = new URL(result.photoUrl);
+        const endpointUrl = new URL(PHOTO_ENDPOINT);
+
+        // 自分たちのSupabaseの署名付き画像URLだけを使う
+        if (
+            photoUrl.origin !== endpointUrl.origin ||
+            !photoUrl.pathname.startsWith(
+                "/storage/v1/object/sign/meeti-photos/"
+            )
+        ) {
+            return;
+        }
+
+        // 写真を読み込めた場合だけ、表示を切り替える
+        const photo = new Image();
+        photo.referrerPolicy = "no-referrer";
+
+        photo.onload = () => {
+            image.referrerPolicy = "no-referrer";
+            image.alt = "本人のプロフィール写真";
+            image.src = photo.src;
+            image.hidden = false;
+        };
+
+        photo.src = photoUrl.href;
+    } catch {
+        // 通信失敗時もMBTI画像を維持する
+    } finally {
+        clearTimeout(timeout);
     }
 }
 
