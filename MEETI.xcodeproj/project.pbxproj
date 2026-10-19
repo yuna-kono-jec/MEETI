@@ -18,6 +18,10 @@
 		7F33F0463078BABA00BDD148 /* MBTITypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03E3078BABA00BDD148 /* MBTITypeData.swift */; };
 		7F33F0473078BABA00BDD148 /* MBTIDiagnosisSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03C3078BABA00BDD148 /* MBTIDiagnosisSession.swift */; };
 		7F33F0483078BABA00BDD148 /* MBTITypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F03F3078BABA00BDD148 /* MBTITypePickerView.swift */; };
+		7F4B001A308208F7003EA9D8 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7F4B0019308208F7003EA9D8 /* Supabase */; };
+		7F4B001C30820AB4003EA9D8 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B001B30820AB4003EA9D8 /* SupabaseService.swift */; };
+		7F4B001E30820BA0003EA9D8 /* OperatorLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B001D30820BA0003EA9D8 /* OperatorLoginView.swift */; };
+		7F4B002030838FC4003EA9D8 /* PhotoUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B001F30838FC4003EA9D8 /* PhotoUploadService.swift */; };
 		7FE7F9EA3075E7DD00CCB8A9 /* BusinessCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */; };
 		7FE7F9EB3075E7DD00CCB8A9 /* CardURLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */; };
 		7FE7F9EC3075E7DD00CCB8A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE7F9DC3075E7DD00CCB8A9 /* ContentView.swift */; };
@@ -51,6 +55,9 @@
 		7F33F03D3078BABA00BDD148 /* MBTIQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTIQuestion.swift; sourceTree = "<group>"; };
 		7F33F03E3078BABA00BDD148 /* MBTITypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTITypeData.swift; sourceTree = "<group>"; };
 		7F33F03F3078BABA00BDD148 /* MBTITypePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTITypePickerView.swift; sourceTree = "<group>"; };
+		7F4B001B30820AB4003EA9D8 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
+		7F4B001D30820BA0003EA9D8 /* OperatorLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorLoginView.swift; sourceTree = "<group>"; };
+		7F4B001F30838FC4003EA9D8 /* PhotoUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUploadService.swift; sourceTree = "<group>"; };
 		7FE7F9D93075E7DD00CCB8A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7FE7F9DA3075E7DD00CCB8A9 /* BusinessCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardView.swift; sourceTree = "<group>"; };
 		7FE7F9DB3075E7DD00CCB8A9 /* CardURLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardURLBuilder.swift; sourceTree = "<group>"; };
@@ -76,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F4B001A308208F7003EA9D8 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				7F33F0373078BABA00BDD148 /* CameraPicker.swift */,
+				7F4B001F30838FC4003EA9D8 /* PhotoUploadService.swift */,
 				7F33F0383078BABA00BDD148 /* CompatibilityCalculator.swift */,
 				7F33F0393078BABA00BDD148 /* InterestData.swift */,
 				7F33F03A3078BABA00BDD148 /* InterestSelection.swift */,
@@ -120,6 +129,8 @@
 				7FE7F9E63075E7DD00CCB8A9 /* QRCodeView.swift */,
 				7FE7F9E83075E7DD00CCB8A9 /* StartView.swift */,
 				7FE7FA003075E90100CCB8A9 /* WebCard */,
+				7F4B001B30820AB4003EA9D8 /* SupabaseService.swift */,
+				7F4B001D30820BA0003EA9D8 /* OperatorLoginView.swift */,
 			);
 			path = MEETI;
 			sourceTree = "<group>";
@@ -159,6 +170,7 @@
 			);
 			name = MEETI;
 			packageProductDependencies = (
+				7F4B0019308208F7003EA9D8 /* Supabase */,
 			);
 			productName = MEETI;
 			productReference = 7F33F0323078B5FD00BDD148 /* MEETI.app */;
@@ -188,6 +200,9 @@
 			);
 			mainGroup = 7FDA72AD306A3E3500BB842A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7F4B0018308208F7003EA9D8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7FDA72AD306A3E3500BB842A;
 			projectDirPath = "";
@@ -228,6 +243,7 @@
 				7F33F0403078BABA00BDD148 /* CameraPicker.swift in Sources */,
 				7F33F0413078BABA00BDD148 /* MBTICalculator.swift in Sources */,
 				7F33F0423078BABA00BDD148 /* CompatibilityCalculator.swift in Sources */,
+				7F4B001C30820AB4003EA9D8 /* SupabaseService.swift in Sources */,
 				7F33F0433078BABA00BDD148 /* InterestSelection.swift in Sources */,
 				7F33F0443078BABA00BDD148 /* InterestData.swift in Sources */,
 				7F33F0453078BABA00BDD148 /* MBTIQuestion.swift in Sources */,
@@ -237,11 +253,13 @@
 				7FE7F9F13075E7DD00CCB8A9 /* MEETIApp.swift in Sources */,
 				7FE7F9F23075E7DD00CCB8A9 /* Participant.swift in Sources */,
 				7FE7F9F33075E7DD00CCB8A9 /* PartnerCardView.swift in Sources */,
+				7F4B001E30820BA0003EA9D8 /* OperatorLoginView.swift in Sources */,
 				7F33F0363078B9BB00BDD148 /* BestMatchCalculator.swift in Sources */,
 				7FE7F9F43075E7DD00CCB8A9 /* ProfileInputView.swift in Sources */,
 				7FE7F9F53075E7DD00CCB8A9 /* QRCodeGenerator.swift in Sources */,
 				7FE7F9F63075E7DD00CCB8A9 /* QRCodeView.swift in Sources */,
 				7FE7F9F83075E7DD00CCB8A9 /* StartView.swift in Sources */,
+				7F4B002030838FC4003EA9D8 /* PhotoUploadService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +475,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7F4B0018308208F7003EA9D8 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7F4B0019308208F7003EA9D8 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F4B0018308208F7003EA9D8 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7FDA72AE306A3E3500BB842A /* Project object */;
 }

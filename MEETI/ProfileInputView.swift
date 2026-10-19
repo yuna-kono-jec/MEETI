@@ -39,18 +39,15 @@ struct ProfileInputView: View {
                 }
                 .frame(width: 150, height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
-
                 Button(photoData == nil ? "写真を撮る（任意）" : "写真を撮り直す") {
                     showPhotoNotice = true
                 }
                 .buttonStyle(MEETIButtonStyle())
-
                 if photoData != nil {
                     Button("写真を削除", role: .destructive) {
                         photoData = nil
                     }
                 }
-
                 Text("写真がない場合は診断したMBTIの画像を使用します")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -63,14 +60,12 @@ struct ProfileInputView: View {
             }.meetiCard()
             VStack(alignment: .leading, spacing: 14) {
                 Text("プロフィール").font(.headline)
-
                 Picker("性別", selection: $gender) {
                     ForEach(genderOptions, id: \.self) { option in
                         Text(option).tag(option)
                     }
                 }
                 .pickerStyle(.segmented)
-
                 Picker("年代", selection: $ageGroup) {
                     ForEach(ageGroupOptions, id: \.self) { option in
                         Text(option).tag(option)
@@ -121,27 +116,27 @@ struct ProfileInputView: View {
             } label: { Label("MBTIを決める", systemImage: "arrow.right") }
                 .buttonStyle(MEETIButtonStyle()).disabled(interests.count != 3)
         }.scrollDismissesKeyboard(.interactively)
-        .alert("写真を利用する前に", isPresented: $showPhotoNotice) {
-            Button("キャンセル", role: .cancel) {}
-            Button("同意して撮影") {
-                if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                    showCamera = true
-                } else {
-                    showCameraUnavailable = true
+            .alert("写真を利用する前に", isPresented: $showPhotoNotice) {
+                Button("キャンセル", role: .cancel) {}
+                Button("同意して撮影") {
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        showCamera = true
+                    } else {
+                        showCameraUnavailable = true
+                    }
                 }
+            } message: {
+                Text("撮影は任意です。写真なしでも参加できます。写真はこの端末内に保存され、アプリの名刺やマッチング画面に表示されます。また、Web名刺に表示するためSupabaseへアップロードします。名刺のQRやリンクを知っている人は、写真を閲覧できます。Webでの写真公開は2026年11月8日23:59（日本時間）までです。期限後はクラウド上の写真を削除し、Web名刺ではMBTI画像を表示します。名前・趣味・ひとことなどは残ります。閲覧者が保存した写真やスクリーンショットは回収できません。")
             }
-        } message: {
-            Text("撮影した写真は自己紹介カードに表示され、マッチングした相手からも見えます。写真はこの端末内のMEETIアプリ専用領域（SwiftData）に保存されます。マッチング表示以外の目的では使用せず、悪用しません。")
-        }
-        .alert("カメラを使用できません", isPresented: $showCameraUnavailable) {
-            Button("OK") {}
-        } message: {
-            Text("カメラを利用できるiPhoneまたはiPadで撮影してください。")
-        }
-        .sheet(isPresented: $showCamera) {
-            CameraPicker(photoData: $photoData)
-                .ignoresSafeArea()
-        }
+            .alert("カメラを使用できません", isPresented: $showCameraUnavailable) {
+                Button("OK") {}
+            } message: {
+                Text("カメラを利用できるiPhoneまたはiPadで撮影してください。")
+            }
+            .sheet(isPresented: $showCamera) {
+                CameraPicker(photoData: $photoData)
+                    .ignoresSafeArea()
+            }
     }
 }
 

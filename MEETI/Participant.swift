@@ -30,9 +30,12 @@ final class Participant {
     var gender: String = "未回答"
     var ageGroup: String = "未回答"
     var photoData: Data?
+    // アップロードした写真の保存場所
+    var webPhotoPath: String? = nil
+    // Web名刺で写真を見るための共有トークン
+    var webPhotoToken: String? = nil
     var createdAt: Date
-
-    init(
+        init(
         number: Int,
         nickname: String,
         mbti: String,

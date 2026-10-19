@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct QRCodeView: View {
     @Environment(\.finishMEETIExperience)
     private var finishExperience
 
+    @Environment(\.modelContext)
+    private var modelContext
+
     var participant: Participant
+
+    @State private var cardURL: URL?
+    @State private var isPreparing = false
+    @State private var preparationStarted = false
+    @State private var errorMessage: String?
 
     var body: some View {
         MEETIScreen(
@@ -20,9 +29,21 @@ struct QRCodeView: View {
             subtitle: "今日の出会いを、これからも。"
         ) {
             VStack(spacing: 24) {
-                if let url = CardURLBuilder.makeURL(
-                    from: participant
-                ) {
+                if isPreparing {
+                    ProgressView("名刺を準備しています…")
+
+                } else if let errorMessage {
+                    Text(errorMessage)
+                        .multilineTextAlignment(.center)
+
+                    Button("もう一度試す") {
+                        Task {
+                            await prepareCard()
+                        }
+                    }
+                    .buttonStyle(MEETIButtonStyle())
+
+                } else if let url = cardURL {
                     if let qrImage = QRCodeGenerator.generate(
                         from: url.absoluteString
                     ) {
@@ -40,8 +61,6 @@ struct QRCodeView: View {
                     } else {
                         Text("QRコードを作成できませんでした。")
                     }
-                } else {
-                    Text("URLを作成できませんでした。")
                 }
             }
             .frame(maxWidth: .infinity)
@@ -65,9 +84,82 @@ struct QRCodeView: View {
                     }
                 }
                 .buttonStyle(MEETIButtonStyle())
-                .disabled(finishExperience == nil)
+                .disabled(
+                    finishExperience == nil || isPreparing
+                )
             }
             .frame(maxWidth: .infinity)
+        }
+        .task {
+            guard !preparationStarted else { return }
+            preparationStarted = true
+            await prepareCard()
+        }
+    }
+
+    @MainActor
+    private func prepareCard() async {
+        guard !isPreparing else { return }
+
+        isPreparing = true
+        errorMessage = nil
+        cardURL = nil
+
+        defer {
+            isPreparing = false
+        }
+
+        do {
+            guard let publicEnd = ISO8601DateFormatter().date(
+                from: "2026-11-09T00:00:00+09:00"
+            ) else {
+                errorMessage = "公開期限の設定を確認してください。"
+                return
+            }
+
+            // 写真あり・公開期間内・トークン未取得の場合だけ送信
+            if let photoData = participant.photoData,
+               Date() < publicEnd,
+               participant.webPhotoToken == nil {
+
+                let path: String
+
+                if let savedPath = participant.webPhotoPath {
+                    // すでに送信済みなら同じ保存先を再利用
+                    path = savedPath
+                } else {
+                    path = try await PhotoUploadService.uploadPhoto(
+                        photoData: photoData
+                    )
+
+                    participant.webPhotoPath = path
+                    try modelContext.save()
+                }
+
+                let registration =
+                    try await PhotoUploadService.registerPhoto(
+                        objectPath: path
+                    )
+
+                participant.webPhotoToken =
+                    registration.photoToken
+            }
+
+            // 保存できたことを確認してからQRを表示
+            try modelContext.save()
+
+            guard let url = CardURLBuilder.makeURL(
+                from: participant
+            ) else {
+                errorMessage = "名刺URLを作成できませんでした。"
+                return
+            }
+
+            cardURL = url
+
+        } catch {
+            errorMessage =
+                "名刺の準備に失敗しました。運営用ログインと通信環境を確認してください。\n\(error.localizedDescription)"
         }
     }
 }
@@ -84,4 +176,5 @@ struct QRCodeView: View {
             )
         )
     }
+    .modelContainer(for: Participant.self, inMemory: true)
 }

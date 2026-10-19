@@ -68,9 +68,18 @@ struct StartView: View {
                 .foregroundStyle(.white)
                 .background(MEETIStyle.green.opacity(0.85), in: Capsule())
             }.buttonStyle(.plain)
+
+            NavigationLink {
+                OperatorLoginView()
+            } label: {
+                Text("運営用ログイン")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 20)
+            }
+            .buttonStyle(.plain)
         }
-        .frame(maxWidth: 290).padding(.horizontal, 28)
-    }
+        .frame(maxWidth: 290).padding(.horizontal, 28)    }
 }
 
 // 背景専用の枝ものです。SF Symbolsや円形の背景を使用せず、葉を細い枝に沿わせます。
