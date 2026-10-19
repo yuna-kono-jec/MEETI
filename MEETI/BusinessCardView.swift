@@ -5,7 +5,7 @@ struct BusinessCardView: View {
     var participant: Participant
 
     var body: some View {
-        // カードとボタンを同じ縦並びに置き、画面下部への固定による大きな空白をなくします。
+        // カードとボタンを縦に並べて、大きな空白をなくす
         ScrollView {
             VStack(spacing: 12) {
                 Text("MY CARD")
@@ -20,7 +20,7 @@ struct BusinessCardView: View {
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(MEETIButtonStyle())
-                    // 保存・遷移の処理は維持し、名刺の直下からMatchingViewへ進みます。
+                    // 保存・遷移の処理は維持し、名刺の直下からMatchingViewへ進む。
                     NavigationLink { MatchingView(participant: participant) } label: {
                         HStack {
                             Spacer()
@@ -34,7 +34,7 @@ struct BusinessCardView: View {
             .frame(maxWidth: 340).padding(.horizontal, 20).padding(.top, 8).padding(.bottom, 20)
             .frame(maxWidth: .infinity)
         }
-        // 長い文章や大きな文字設定では、カードとボタンを一緒にスクロールできます。
+        // 長い文章や大きな文字設定では、カードとボタンを一緒にスクロールできる。
         .scrollBounceBehavior(.basedOnSize)
         .background(MEETIStyle.ivory.ignoresSafeArea())
         .foregroundStyle(MEETIStyle.ink)
@@ -42,7 +42,7 @@ struct BusinessCardView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    // お手本に合わせて、この画面だけ小さな間隔とコンパクトな画像で名刺を組み立てます。
+    // お手本に合わせて、この画面だけ小さな間隔とコンパクトな画像で名刺を組み立てる。
     private func compactCard(imageSize: CGFloat) -> some View {
         VStack(spacing: 8) {
             HStack(alignment: .top) {
@@ -54,18 +54,18 @@ struct BusinessCardView: View {
                 Text("よろしく\nお願いします！ ♡").font(.system(size: 11)).lineSpacing(3)
                     .rotationEffect(.degrees(-8))
             }
-            // 画像・名前・タイプを1つのプロフィールブロックにし、画像下の間隔を3ptにします。
+            // 画像・名前・タイプを1つのプロフィールブロックにし、画像下の間隔を3ptにする。
             VStack(spacing: 3) {
-                // 写真を復元できる場合は写真だけを表示。写真なしの場合に背景の四角い枠は付けません。
+                // 写真を復元できる場合は写真だけを表示。写真なしの場合に背景の四角い枠は付けない。
                 if let data = participant.photoData, let photo = UIImage(data: data) {
                     Image(uiImage: photo).resizable().scaledToFill()
                         .frame(width: imageSize, height: imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 14)).accessibilityHidden(true)
                 } else {
-                    // 写真がない場合は、その人のMBTIに対応するAssets画像を使用します。
+                    // 写真がない場合は、その人のMBTIに対応するAssets画像を使用する。
                     Image(participant.mbti.uppercased()).resizable().scaledToFit()
                         .frame(width: imageSize + 20, height: imageSize)
-                        // Assets内の周囲の余白を表示枠で抑え、イラスト直下に名前を寄せます。
+                        // Assets内の周囲の余白を表示枠で抑え、イラスト直下に名前を寄せる。
                         .scaleEffect(1.12)
                         .frame(width: imageSize + 20, height: imageSize - 24)
                         .clipped().accessibilityHidden(true)
@@ -76,10 +76,10 @@ struct BusinessCardView: View {
                     .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
-            // 名前の左右への直立した装飾は撤去し、植物はカード全体の端に配置します。
+            // 名前の左右への直立した装飾は撤去し、植物はカード全体の端に配置する。
             .padding(.horizontal, 18)
 
-            // 趣味タグは内容に必要な幅だけ使い、3つを中央寄せで並べます。
+            // 趣味タグは内容に必要な幅だけ使い、3つを中央寄せで並べる。
             HStack(alignment: .center, spacing: 6) {
                 ForEach(Array(participant.interests.enumerated()), id: \.offset) { index, interest in
                     Text(interest).font(.system(size: 11)).multilineTextAlignment(.center)
@@ -88,7 +88,7 @@ struct BusinessCardView: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            // 独立したひとこと欄は未入力でも枠を保ち、ロゴと一枚の名刺にまとまる密度にします。
+            // 独立したひとこと欄は未入力でも枠を保ち、ロゴと一枚の名刺にまとまる密度にする。
             VStack(alignment: .leading, spacing: 5) {
                 Label("ひとこと", systemImage: "message.fill").font(.system(size: 11)).foregroundStyle(MEETIStyle.green)
                 Text(participant.message.isEmpty ? " " : participant.message)
@@ -97,7 +97,7 @@ struct BusinessCardView: View {
             }
             .padding(.vertical, 9).padding(.leading, 11).padding(.trailing, 32)
             .background(MEETIStyle.ivory.opacity(0.65), in: RoundedRectangle(cornerRadius: 14))
-            // チューリップも右端から斜めに覗かせ、メッセージ本文には重ねません。
+            // チューリップも右端から斜めに覗かせ、メッセージ本文には重ねない。
             .overlay(alignment: .bottomTrailing) {
                 smallFlower(.tulip).rotationEffect(.degrees(-32)).offset(x: 7, y: 4)
             }
@@ -113,48 +113,48 @@ struct BusinessCardView: View {
         .padding(14).frame(maxWidth: .infinity)
         .background(.white.opacity(0.8), in: RoundedRectangle(cornerRadius: 22))
         .overlay(RoundedRectangle(cornerRadius: 22).stroke(MEETIStyle.green.opacity(0.1), lineWidth: 0.7))
-        // 植物を情報の左右ではなく、紙の端から入り込む非対称な装飾として重ねます。
+        // 植物を情報の左右ではなく、紙の端から入り込む非対称な装飾として重ねる。
         .overlay {
             GeometryReader { geometry in
                 ZStack {
-                    // 左端から右上へ伸びる枝。根元はカード外に逃がします。
+                    // 左端から右上へ伸びる枝。根元はカードの外に逃がす
                     smallFlower(.foliage).scaleEffect(1.35)
                         .rotationEffect(.degrees(52))
                         .position(x: 4, y: geometry.size.height * 0.46)
-                    // 右端の小花は左上を向け、左側と異なる高さ・長さにします。
+                    // 右端の小花は左上を向け、左側と異なる高さ・長さにする。
                     smallFlower(.wildflowers).scaleEffect(1.1)
                         .rotationEffect(.degrees(-61))
                         .position(x: geometry.size.width - 3, y: geometry.size.height * 0.34)
-                    // 左下の角から斜めに覗く野花。カード下端で一部を見切れさせます。
+                    // 左下の角から斜めに覗く野花。カード下端で一部を見切れさせる。
                     smallFlower(.wildflowers).scaleEffect(1.2)
                         .rotationEffect(.degrees(39))
                         .position(x: 17, y: geometry.size.height - 4)
-                    // 右下は横方向の枝にし、野花と同じ向き・高さにしません。
+                    // 右下は横方向の枝にし、野花と同じ向き・高さにしない。
                     smallFlower(.foliage).scaleEffect(1.15)
                         .rotationEffect(.degrees(-78))
                         .position(x: geometry.size.width - 7, y: geometry.size.height - 23)
                 }
             }
-            // 描画の端だけをカード形状で切り取り、装飾はボタンや文字の操作を妨げません。
+            // 描画の端だけをカード形状で切り取り、装飾はボタンや文字の操作を妨げない。
             .clipShape(RoundedRectangle(cornerRadius: 22))
             .opacity(0.8).accessibilityHidden(true).allowsHitTesting(false)
         }
     }
 
-    // 他画面の花の大きさは変えず、名刺内だけ小さく配置します。
+    // 他画面の花の大きさは変えず、名刺内だけ小さく配置する。
     private func smallFlower(_ kind: MEETICardSprig.Kind) -> some View {
         MEETICardSprig(kind: kind).scaleEffect(0.48).frame(width: 24, height: 34)
             .accessibilityHidden(true).allowsHitTesting(false)
     }
 
-    // 表示専用の名称を補足し、Participantに保存されたMBTI値は変更しません。
+    // 表示専用の名称を補足し、Participantに保存されたMBTI値は変更しない。
     private var typeLabel: String {
         guard let name = meetiTypeNames[participant.mbti.uppercased()] else { return participant.mbti }
         return "\(participant.mbti) / \(name)タイプ"
     }
 }
 
-// 写真なしの異なるタイプをプレビューし、本人に対応する画像表示を確認できます。
+// 写真なしの異なるタイプをプレビューし、本人に対応する画像表示を確認できる。
 #Preview("INFP・写真なし") {
     NavigationStack {
         BusinessCardView(participant: Participant(number: 12, nickname: "HANA", mbti: "INFP", interests: ["読書", "カフェ", "映画"], message: "いろんな人とお話ししたいです！"))

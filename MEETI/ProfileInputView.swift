@@ -20,10 +20,10 @@ struct ProfileInputView: View {
     @State private var showCamera = false
     @State private var showCameraUnavailable = false
     
-    // 選択上限と次へ進める条件は既存のまま、入力欄をカード化します。
+    // 選択上限と次へ進める条件は既存のまま、入力欄をカード化する。
     var body: some View {
         MEETIScreen(eyebrow: "01 / PROFILE", title: "プロフィールを入力しよう", subtitle: "好きなことが、出会いのきっかけに。") {
-            // MBTI決定前なので、写真がない場合は人物アイコンを表示します。
+            // MBTI決定前なので、写真がない場合は人物アイコンを表示する。
             VStack(spacing: 12) {
                 Group {
                     if let data = photoData, let photo = UIImage(data: data) {

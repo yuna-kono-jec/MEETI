@@ -6,7 +6,7 @@ struct MatchResultView: View {
     var currentParticipant: Participant
 
     var body: some View {
-        // 同率1位の全員表示と、本人データの引き継ぎを維持します。
+        // 同率1位の全員表示と、本人データの引き継ぎを維持する。
         MEETIScreen(eyebrow: "06 / BEST MATCH", title: "あなたのベストマッチ", subtitle: "共通点をきっかけに、話しかけてみよう。") {
             VStack(spacing: 24) {
 
@@ -14,7 +14,7 @@ struct MatchResultView: View {
                 if let result = result {
                     // 同率1位の場合は全員表示する
                     ForEach(result.matches) { match in
-                        // 同率の各相手について、本人と相手を左右に並べます。
+                        // 同率の各相手について、本人と相手を左右に並べる。
                         VStack(spacing: 20) {
                             Text("BEST MATCH!").font(.title3.weight(.medium)).tracking(2)
                                 .foregroundStyle(Color(red: 0.72, green: 0.43, blue: 0.48))
@@ -54,7 +54,7 @@ struct MatchResultView: View {
             }
         }
     }
-    // 小さな端末でも左右の名刺を収める、マッチング結果用の表示です。
+    // 小さな端末でも左右の名刺を収める、マッチング結果用の表示。
     private func matchIdentity(_ participant: Participant) -> some View {
         VStack(spacing: 8) {
             MEETIAvatar(participant: participant, size: 90).clipShape(Circle())

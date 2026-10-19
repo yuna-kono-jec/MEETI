@@ -55,13 +55,13 @@ struct MBTIQuestionView: View {
         }
     }
 
-    // 12問診断を共通の配色で表示し、既存の回答処理を呼び出します。
+    // 12問診断を共通の配色で表示し、回答処理を呼び出す
     private var diagnosisView: some View {
         VStack(spacing: 16) {
             if let question = diagnosis.currentQuestion {
                 Text("\(diagnosis.currentQuestionIndex + 1) / \(mbtiQuestions.count) 問")
 
-                // 回答状態には触れず、進み具合をバーで表示します。
+                // 回答状態には触れず、進み具合をバーで表示する。
                 ProgressView(value: Double(diagnosis.currentQuestionIndex), total: Double(mbtiQuestions.count)).tint(MEETIStyle.green)
 
                 Text(question.text)

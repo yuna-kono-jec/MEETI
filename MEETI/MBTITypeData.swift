@@ -1,6 +1,6 @@
 import Foundation
 
-// MBTIが分かっている人が選ぶ16タイプです。
+// MBTIが分かっている人が選ぶ16タイプ
 let mbtiTypes: [String] = [
     "ISTJ", "ISFJ", "INFJ", "INTJ",
     "ISTP", "ISFP", "INFP", "INTP",

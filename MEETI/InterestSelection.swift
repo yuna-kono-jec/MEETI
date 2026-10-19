@@ -1,11 +1,11 @@
 import Foundation
 
-// 好きなことを最大3つまで選ぶ処理です。
+// 好きなことを最大3つまで選ぶ処理
 struct InterestSelection {
     private(set) var selectedInterests: [String] = []
 
-    // 選択または選択解除をします。
-    // 正常に変更できた場合はtrueを返します。
+    // 選択または選択解除をする
+    // 変更できたらtrueを返す
     mutating func toggle(_ interest: String) -> Bool {
         if !interestOptions.contains(interest) {
             return false
@@ -26,7 +26,7 @@ struct InterestSelection {
         return true
     }
 
-    // 指定した項目が選ばれているか確認します。
+    // 指定した項目が選ばれているか確認する
     func isSelected(_ interest: String) -> Bool {
         return selectedInterests.contains(interest)
     }

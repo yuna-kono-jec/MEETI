@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// 全画面で使用する配色。診断や保存のロジックには依存しません。
+// 全画面で使用する配色。診断や保存のロジックには依存しない。
 enum MEETIStyle {
     static let ivory = Color(red: 0.98, green: 0.97, blue: 0.94)
     static let green = Color(red: 0.43, green: 0.56, blue: 0.46)
@@ -11,12 +11,12 @@ enum MEETIStyle {
     static let beige = Color(red: 0.93, green: 0.89, blue: 0.81)
 }
 
-// 小さい画面や文字サイズの変更でも内容を読める共通スクロール画面です。
+// 小さい画面や文字サイズの変更でも内容を読める共通スクロール画面。
 struct MEETIScreen<Content: View>: View {
     let eyebrow: String
     let title: String
     let subtitle: String
-    // 名刺の見出しだけを大きくできるよう、画面ごとに指定します。
+    // 名刺の見出しだけを大きくできるよう、画面ごとに指定する。
     var eyebrowFont: Font = .caption
     @ViewBuilder var content: () -> Content
     var body: some View {
@@ -41,7 +41,7 @@ struct MEETIScreen<Content: View>: View {
     }
 }
 
-// 主な操作ボタンの大きさと押下・無効状態を統一します。
+// 主な操作ボタンの大きさと押下・無効状態を統一する。
 struct MEETIButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled
     func makeBody(configuration: Configuration) -> some View {
@@ -54,7 +54,7 @@ struct MEETIButtonStyle: ButtonStyle {
 }
 
 extension View {
-    // 入力欄や名刺の枠に使う、細い線の角丸カードです。
+    // 入力欄や名刺の枠に使う、細い線の角丸カード。
     func meetiCard() -> some View {
         self.padding(20).frame(maxWidth: .infinity, alignment: .leading)
             .background(.white.opacity(0.75))
@@ -63,7 +63,7 @@ extension View {
     }
 }
 
-// Assets内のタイプ名と同じ画像を表示し、装飾画像の読み上げを省きます。
+// Assets内のタイプ名と同じ画像を表示し、装飾画像の読み上げを省く。
 struct MEETITypeImage: View {
     let type: String
     var body: some View {
@@ -72,7 +72,7 @@ struct MEETITypeImage: View {
     }
 }
 
-// 保存済みの写真がある場合はそれを表示し、未登録時はMBTI画像を使います。
+// 保存済みの写真がある場合はそれを表示し、未登録時はMBTI画像を使う。
 struct MEETIAvatar: View {
     let participant: Participant
     var size: CGFloat = 130
@@ -89,7 +89,7 @@ struct MEETIAvatar: View {
     }
 }
 
-// お手本の淡い3色のタグを共通部品として表示します。
+// お手本の淡い3色のタグを共通部品として表示する。
 struct MEETIInterestTags: View {
     let interests: [String]
     var body: some View {
@@ -101,7 +101,7 @@ struct MEETIInterestTags: View {
             }
         }
     }
-    // 登録済みの趣味を、お手本のアイコン付きタグとして表示します。
+    // 登録済みの趣味を、お手本のアイコン付きタグとして表示する。
     private func interestIcon(_ interest: String) -> String {
         let icons = ["音楽": "music.note", "旅行": "airplane", "カフェ": "cup.and.saucer", "読書": "book", "映画": "film", "ゲーム": "gamecontroller", "アニメ": "tv", "スポーツ": "figure.run", "犬": "pawprint", "猫": "pawprint", "アート": "paintpalette", "グルメ": "fork.knife", "アウトドア": "mountain.2", "ショッピング": "bag"]
         return icons[interest] ?? "heart"
@@ -109,8 +109,8 @@ struct MEETIInterestTags: View {
 
 }
 
-// 表示専用の日本語タイプ名です。診断・相性計算の値には影響しません。
-// 名刺画面でも同じ表示名を再利用します。
+// 表示専用の日本語タイプ名。診断・相性計算の値には影響しない。
+// 名刺画面でも同じ表示名を再利用する。
 let meetiTypeNames = [
     "ISTJ": "管理者", "ISFJ": "擁護者", "INFJ": "提唱者", "INTJ": "建築家",
     "ISTP": "巨匠", "ISFP": "冒険家", "INFP": "仲介者", "INTP": "論理学者",
@@ -118,16 +118,16 @@ let meetiTypeNames = [
     "ESTJ": "幹部", "ESFJ": "領事", "ENFJ": "主人公", "ENTJ": "指揮官"
 ]
 
-// お手本の植物を、拡大しても粗くならない曲線で描く装飾です。
-// 茎・葉・花を独立したパスにし、写真や文字には重ねません。
-// 名刺専用レイアウトからも既存の花を再利用します。
+// お手本の植物を、拡大しても粗くならない曲線で描く装飾。
+// 茎・葉・花を独立したパスにし、写真や文字には重ねない。
+// 名刺専用レイアウトからも既存の花を再利用する。
 struct MEETICardSprig: View {
     enum Kind { case foliage, tulip, wildflowers }
     var kind: Kind = .foliage
 
     var body: some View {
         Canvas { context, size in
-            // 60×100の座標を表示サイズに合わせ、細い線と淡い塗りを保ちます。
+            // 60×100の座標を表示サイズに合わせ、細い線と淡い塗りを保つ。
             context.scaleBy(x: size.width / 60, y: size.height / 100)
             let green = MEETIStyle.green.opacity(0.5)
             let pink = Color(red: 0.89, green: 0.59, blue: 0.63)
@@ -150,7 +150,7 @@ struct MEETICardSprig: View {
                 context.fill(path, with: .color(green.opacity(0.45)))
                 stroke(path)
             }
-            // 先端が3つに分かれた花弁と、その中央の細い線でチューリップを描きます。
+            // 先端が3つに分かれた花弁と、その中央の細い線でチューリップを描く。
             func tulip(_ x: CGFloat, _ y: CGFloat, _ filled: Bool) {
                 var petals = Path()
                 petals.move(to: CGPoint(x: x, y: y + 23))
@@ -187,7 +187,7 @@ struct MEETICardSprig: View {
                 leaf(20, 78, -1, 14)
                 leaf(35, 68, 1, 13)
                 tulip(39, 8, false)
-                // 小花は5枚の小さな花弁を輪郭だけで描きます。
+                // 小花は5枚の小さな花弁を輪郭だけで描く。
                 for index in 0..<5 {
                     let angle = Double(index) * .pi * 2 / 5
                     let center = CGPoint(x: 18 + cos(angle) * 5, y: 31 + sin(angle) * 5)
@@ -199,7 +199,7 @@ struct MEETICardSprig: View {
     }
 }
 
-// 新しいお手本の、番号・画像・名前・タグ・ひとこと・ロゴの順で名刺を表示します。
+// 新しいお手本の、番号・画像・名前・タグ・ひとこと・ロゴの順で名刺を表示する。
 struct MEETIParticipantCard: View {
     let participant: Participant
     var body: some View {
@@ -213,7 +213,7 @@ struct MEETIParticipantCard: View {
                 Text("よろしく\nお願いします！ ♡").font(.caption).lineSpacing(4)
                     .rotationEffect(.degrees(-8)).foregroundStyle(MEETIStyle.ink.opacity(0.75))
             }
-            // 実物写真とMBTI画像を重ねず、登録済み写真の有無で一方だけを表示します。
+            // 実物写真とMBTI画像を重ねず、登録済み写真の有無で一方だけを表示する。
             MEETIAvatar(participant: participant, size: 210)
             HStack(alignment: .center) {
                 MEETICardSprig()
@@ -226,13 +226,13 @@ struct MEETIParticipantCard: View {
                 MEETICardSprig().scaleEffect(x: -1, y: 1)
             }
             MEETIInterestTags(interests: participant.interests)
-            // 本人のメッセージだけを表示し、空欄の場合も入力を捏造しません。
+            // 本人のメッセージだけを表示し、空欄の場合も入力を捏造しない。
             if !participant.message.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Label("ひとこと", systemImage: "message.fill").font(.caption).foregroundStyle(MEETIStyle.green)
                     Text(participant.message).font(.subheadline).lineSpacing(5)
                         .frame(maxWidth: .infinity, alignment: .center)
-                // 右側に花のための余白を確保し、長いメッセージと重ならないようにします。
+                // 右側に花のための余白を確保し、長いメッセージと重ならないようにする。
                 }.padding(14).padding(.trailing, 32)
                     .background(MEETIStyle.ivory.opacity(0.65), in: RoundedRectangle(cornerRadius: 16))
                     .overlay(alignment: .bottomTrailing) {
@@ -252,7 +252,7 @@ struct MEETIParticipantCard: View {
         }.frame(maxWidth: .infinity).meetiCard()
     }
 
-    // 保存されているタイプ文字列を維持し、日本語名のみ補足します。
+    // 保存されているタイプ文字列を維持し、日本語名のみ補足する。
     private var typeLabel: String {
         guard let name = meetiTypeNames[participant.mbti.uppercased()] else { return participant.mbti }
         return "\(participant.mbti) / \(name)タイプ"

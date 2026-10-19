@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// iPhoneのカメラをSwiftUIから開くための部品です。
+// iPhoneのカメラをSwiftUIから開くための部品。
 struct CameraPicker: UIViewControllerRepresentable {
     @Binding var photoData: Data?
     @Environment(\.dismiss) private var dismiss
@@ -22,7 +22,7 @@ struct CameraPicker: UIViewControllerRepresentable {
         _ uiViewController: UIImagePickerController,
         context: Context
     ) {
-        // 表示後に更新する設定はありません。
+        // 表示後に更新する設定はない
     }
 
     final class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -37,7 +37,7 @@ struct CameraPicker: UIViewControllerRepresentable {
             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
         ) {
             if let image = info[.originalImage] as? UIImage {
-                // データが大きくなりすぎないようJPEGに変換します。
+                // データが大きくなりすぎないようJPEGに変換する
                 parent.photoData = image.jpegData(compressionQuality: 0.8)
             }
 

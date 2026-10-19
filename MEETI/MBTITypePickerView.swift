@@ -1,6 +1,6 @@
 import SwiftUI
 
-// 選択値のBindingを維持し、16タイプを見比べられる選択カードにします。
+// 選択値のBindingを維持し、16タイプを見比べられる選択カードにする。
 struct MBTITypePickerView: View {
     @Binding var selectedMBTI: String
     var body: some View {

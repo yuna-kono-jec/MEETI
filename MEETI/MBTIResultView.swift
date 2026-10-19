@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct MBTIResultView: View {
-    
     @Environment(\.modelContext) private var modelContext
-    @Query private var participants: [Participant]
     @State private var savedParticipant: Participant?
     @State private var showBusinessCard = false
+    @State private var isSaving = false
+    @State private var saveError = ""
     
     var nickname: String
     var interests: [String]
@@ -23,28 +23,41 @@ struct MBTIResultView: View {
     var mbti: String
     var photoData: Data?
     
-    private func saveParticipant() {
-        
-        let nextNumber = (participants.map { $0.number }.max() ?? 0) + 1
-        
-        let participant = Participant(
+    @MainActor
+    private func saveParticipant() async {
+        guard !isSaving else { return }
 
-            number: nextNumber,
-            nickname: nickname,
-            mbti: mbti,
-            interests: interests,
-            message: message,
-            gender: gender,
-            ageGroup: ageGroup,
-            photoData: photoData
-        )
+        isSaving = true
+        saveError = ""
 
-        modelContext.insert(participant)
-        savedParticipant = participant
+        defer {
+            isSaving = false
+        }
+
+        do {
+            // Supabaseで保存してから、この端末にも残す
+            let participant = try await ParticipantSyncService.saveParticipant(
+                nickname: nickname,
+                mbti: mbti,
+                interests: interests,
+                message: message,
+                gender: gender,
+                ageGroup: ageGroup,
+                photoData: photoData
+            )
+
+            modelContext.insert(participant)
+            try modelContext.save()
+
+            savedParticipant = participant
+            showBusinessCard = true
+        } catch {
+            saveError = "参加者データを保存できませんでした。通信環境を確認して、もう一度試してください。\n\(error.localizedDescription)"
+        }
     }
     
     var body: some View {
-        // 診断結果のタイプ名で既存Assetsの画像を表示します。
+        // 診断結果のタイプ名でAssetsの画像を表示する
         MEETIScreen(eyebrow: "03 / RESULT", title: "あなたのタイプ", subtitle: "あなたらしさを、名刺に添えて。") {
             VStack(spacing: 24) {
                 Text(mbti).font(.system(size: 40, weight: .medium, design: .rounded)).tracking(6).foregroundStyle(MEETIStyle.green)
@@ -52,15 +65,33 @@ struct MBTIResultView: View {
                 Text("好きなことも、あなたの個性のひとつ。\n次は自己紹介カードを作りましょう。")
                     .multilineTextAlignment(.center).font(.subheadline).lineSpacing(6)
             }.frame(maxWidth: .infinity).meetiCard()
-            Button("名刺を作る") {
-                saveParticipant()
-                showBusinessCard = true
-            }.buttonStyle(MEETIButtonStyle())
+            Button {
+                Task {
+                    await saveParticipant()
+                }
+            } label: {
+                if isSaving {
+                    ProgressView()
+                        .tint(.white)
+                } else {
+                    Text("名刺を作る")
+                }
+            }
+            .buttonStyle(MEETIButtonStyle())
+            .disabled(isSaving)
         }
         .navigationDestination(isPresented: $showBusinessCard) {
             if let participant = savedParticipant {
                 BusinessCardView(participant: participant)
             }
+        }
+        .alert("保存できませんでした", isPresented: Binding(
+            get: { !saveError.isEmpty },
+            set: { if !$0 { saveError = "" } }
+        )) {
+            Button("OK") {}
+        } message: {
+            Text(saveError)
         }
     }
 }

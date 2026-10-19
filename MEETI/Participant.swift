@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-// プロフィールとマッチングで使う選択肢です。
+// プロフィールとマッチングで使う選択肢
 let genderOptions = ["男性", "女性"]
 let matchingGenderOptions = ["どちらでも", "男性", "女性"]
 let ageGroupOptions = [
@@ -20,13 +20,14 @@ let matchingAgeGroupOptions = ["指定しない"] + ageGroupOptions
 
 @Model
 final class Participant {
-    
+    // Supabaseの参加者ID。昔の端末内データではnilになる
+    var remoteID: UUID? = nil
     var number: Int
     var nickname: String
     var mbti: String
     var interests: [String]
     var message: String
-    // 古い保存データは「未回答」としてそのまま使えます。
+    // 昔の保存データは「未回答」のまま使う
     var gender: String = "未回答"
     var ageGroup: String = "未回答"
     var photoData: Data?
@@ -46,6 +47,7 @@ final class Participant {
         photoData: Data? = nil,
         createdAt: Date = Date()
     ) {
+        self.remoteID = nil
         self.number = number
         self.nickname = nickname
         self.mbti = mbti

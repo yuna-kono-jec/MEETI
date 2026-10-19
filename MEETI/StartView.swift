@@ -1,21 +1,21 @@
 import SwiftUI
 
-// 終了操作を末端のQR画面まで環境経由で共有し、各画面のParticipant引数は変更しません。
+// 終了操作を末端のQR画面まで環境経由で共有し、各画面のParticipant引数は変更しない。
 extension EnvironmentValues {
     @Entry var finishMEETIExperience: (() -> Void)? = nil
 }
 
 struct StartView: View {
-    // この状態はNavigationStackの外に保持し、終了時に新しい画面ツリーを作ります。
+    // この状態はNavigationStackの外に保持し、終了時に新しい画面ツリーを作る。
     @State private var experienceID = UUID()
 
     var body: some View {
-        // 既存のNavigationStackとProfileInputViewへの遷移を維持します。
+        // 既存のNavigationStackとProfileInputViewへの遷移を維持する。
         NavigationStack {
             GeometryReader { geometry in
                 ScrollView {
-                    // 参考画像①の中央付近にロゴから開始ボタンまでを小さくまとめます。
-                    // 端末の高さに合わせるのは上下の余白だけで、文字や花は拡大しません。
+                    // 参考画像①の中央付近にロゴから開始ボタンまでを小さくまとめる。
+                    // 端末の高さに合わせるのは上下の余白だけで、文字や花は拡大しない。
                     VStack(spacing: 0) {
                         Spacer(minLength: 20)
                         welcomeContent
@@ -28,7 +28,7 @@ struct StartView: View {
             .background {
                 ZStack(alignment: .topLeading) {
                     MEETIStyle.ivory
-                    // 参考画像の左上〜左側の植物を、淡いぼかしと枝・小さな葉で表現します。
+                    // 参考画像の左上〜左側の植物を、淡いぼかしと枝・小さな葉で表現する。
                     StartEdgeBotanical().frame(width: 145, height: 380)
                         .blur(radius: 3).opacity(0.42).offset(x: -25, y: 15)
                 }.ignoresSafeArea()
@@ -36,16 +36,16 @@ struct StartView: View {
             .foregroundStyle(MEETIStyle.ink)
             .tint(MEETIStyle.green)
         }
-        // 識別子の更新でスタック全体を破棄し、戻る履歴・入力・診断の一時状態をリセットします。
-        // アプリ上位のSwiftDataコンテナと保存済みParticipantには触れません。
+        // 識別子の更新でスタック全体を破棄し、戻る履歴・入力・診断の一時状態をリセットする。
+        // アプリ上位のSwiftDataコンテナと保存済みParticipantには触れない。
         .id(experienceID)
         .environment(\.finishMEETIExperience, {
             experienceID = UUID()
         })
     }
 
-    // 参考画像にあるロゴ・説明・小花・ボタンだけを表示します。
-    // 機能紹介の3項目、紹介カード、WELCOME、独自のキャッチコピーは設けません。
+    // 参考画像にあるロゴ・説明・小花・ボタンだけを表示する。
+    // 機能紹介の3項目、紹介カード、WELCOME、独自のキャッチコピーは設けない。
     var welcomeContent: some View {
         VStack(spacing: 0) {
             Text("MEETI.")
@@ -54,7 +54,7 @@ struct StartView: View {
                 .font(.system(size: 11)).lineSpacing(5)
                 .multilineTextAlignment(.center).foregroundStyle(.secondary)
                 .padding(.top, 14)
-            // 花の線画は説明の下に小さく添え、主役のロゴより目立たせません。
+            // 花の線画は説明の下に小さく添え、主役のロゴより目立たせない。
             StartBotanicalIllustration().frame(width: 115, height: 60)
                 .opacity(0.75).padding(.top, 15).padding(.bottom, 20)
             NavigationLink { ProfileInputView() } label: {
@@ -82,13 +82,13 @@ struct StartView: View {
         .frame(maxWidth: 290).padding(.horizontal, 28)    }
 }
 
-// 背景専用の枝ものです。SF Symbolsや円形の背景を使用せず、葉を細い枝に沿わせます。
+// 背景専用の枝もの。SF Symbolsや円形の背景を使用せず、葉を細い枝に沿わせる。
 private struct StartEdgeBotanical: View {
     var body: some View {
         Canvas { context, size in
             context.scaleBy(x: size.width / 145, y: size.height / 380)
             let green = Color(red: 0.58, green: 0.65, blue: 0.55)
-            // 3本の枝の各ベジェ曲線から葉の位置を求め、自然な斜めの流れにします。
+            // 3本の枝の各ベジェ曲線から葉の位置を求め、自然な斜めの流れにする。
             let branches: [(CGPoint, CGPoint, CGFloat)] = [
                 (CGPoint(x: 5, y: 340), CGPoint(x: 87, y: 16), CGFloat(22)),
                 (CGPoint(x: 2, y: 230), CGPoint(x: 112, y: 90), CGFloat(18)),
@@ -120,8 +120,8 @@ private struct StartEdgeBotanical: View {
     }
 }
 
-// カフェのショップカードやウェディングペーパーをイメージした、控えめな植物の線画です。
-// 各茎の傾きと花の高さを変え、単体の大きな葉ではなく小さな野花の束にします。
+// カフェのショップカードやウェディングペーパーをイメージした、控えめな植物の線画。
+// 各茎の傾きと花の高さを変え、単体の大きな葉ではなく小さな野花の束にする。
 private struct StartBotanicalIllustration: View {
     var body: some View {
         Canvas { context, size in
@@ -131,7 +131,7 @@ private struct StartBotanicalIllustration: View {
             func line(_ path: Path, color: Color = sage, width: CGFloat = 0.7) {
                 context.stroke(path, with: .color(color.opacity(0.8)), style: StrokeStyle(lineWidth: width, lineCap: .round, lineJoin: .round))
             }
-            // ゆるく曲がった細い茎を、中央の根元から少しずつ広げます。
+            // ゆるく曲がった細い茎を、中央の根元から少しずつ広げる。
             func stem(from base: CGPoint, to tip: CGPoint, bend: CGFloat) {
                 var path = Path()
                 path.move(to: base)
@@ -140,7 +140,7 @@ private struct StartBotanicalIllustration: View {
                               control2: CGPoint(x: tip.x - bend * 0.4, y: tip.y + 37))
                 line(path)
             }
-            // 小さな葉には薄い塗りと中央の葉脈を加え、輪郭の主張を抑えます。
+            // 小さな葉には薄い塗りと中央の葉脈を加え、輪郭の主張を抑える。
             func leaf(at base: CGPoint, to tip: CGPoint) {
                 let dx = tip.x - base.x
                 let dy = tip.y - base.y
@@ -154,7 +154,7 @@ private struct StartBotanicalIllustration: View {
                 vein.move(to: base); vein.addLine(to: tip)
                 line(vein, width: 0.35)
             }
-            // 花は細い輪郭の5枚の花弁と、非常に淡いベージュの中心で描きます。
+            // 花は細い輪郭の5枚の花弁と、非常に淡いベージュの中心で描く。
             func flower(at center: CGPoint, radius: CGFloat, angle: Double) {
                 for index in 0..<5 {
                     let rotation = Double(index) * .pi * 2 / 5 + angle
@@ -172,7 +172,7 @@ private struct StartBotanicalIllustration: View {
             stem(from: CGPoint(x: 113, y: 162), to: CGPoint(x: 137, y: 42), bend: 10)
             stem(from: CGPoint(x: 117, y: 163), to: CGPoint(x: 162, y: 73), bend: 19)
             stem(from: CGPoint(x: 101, y: 161), to: CGPoint(x: 47, y: 93), bend: -22)
-            // 葉の根元を茎と同じベジェ曲線上で計算し、葉が浮いて見えないようにします。
+            // 葉の根元を茎と同じベジェ曲線上で計算し、葉が浮いて見えないようにする。
             func attachedLeaf(base: CGPoint, tip: CGPoint, bend: CGFloat, t: CGFloat, direction: CGFloat) {
                 let c1 = CGPoint(x: base.x + bend, y: 123)
                 let c2 = CGPoint(x: tip.x - bend * 0.4, y: tip.y + 37)
@@ -195,7 +195,7 @@ private struct StartBotanicalIllustration: View {
             flower(at: CGPoint(x: 137, y: 40), radius: 5, angle: 0.5)
             flower(at: CGPoint(x: 162, y: 72), radius: 4, angle: 0.1)
             flower(at: CGPoint(x: 47, y: 92), radius: 4, angle: -0.3)
-            // 根元を結ぶ短い線を添え、束ねた野花の自然なまとまりを作ります。
+            // 根元を結ぶ短い線を添え、束ねた野花の自然なまとまりを作る。
             var tie = Path()
             tie.move(to: CGPoint(x: 99, y: 151))
             tie.addQuadCurve(to: CGPoint(x: 121, y: 152), control: CGPoint(x: 110, y: 156))
