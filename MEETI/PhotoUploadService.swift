@@ -96,7 +96,11 @@ extension PhotoUploadService {
         let session = try await SupabaseService.client.auth.session
         let userID = session.user.id.uuidString.lowercased()
 
-        let jpegData = try prepareJPEG(from: photoData)
+        // JPEGの再描画・圧縮だけをバックグラウンドへ移し、操作を処理するメインスレッドを空けます。
+        // 圧縮率・1024px上限・容量制限・メタデータ除去は変更しません。
+        let jpegData = try await Task.detached(priority: .userInitiated) {
+            try prepareJPEG(from: photoData)
+        }.value
 
         let fileName = "photo-\(UUID().uuidString.lowercased()).jpg"
         let path = "\(userID)/\(fileName)"
@@ -115,8 +119,8 @@ extension PhotoUploadService {
         return path
     }
 
-    @MainActor
-    private static func prepareJPEG(from data: Data) throws -> Data {
+    // UIと独立した画像変換なので、呼び出し元のメインアクターへ戻さず実行します。
+    nonisolated private static func prepareJPEG(from data: Data) throws -> Data {
         guard let original = UIImage(data: data),
               original.size.width > 0,
               original.size.height > 0 else {

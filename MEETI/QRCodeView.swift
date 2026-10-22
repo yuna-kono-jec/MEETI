@@ -18,6 +18,8 @@ struct QRCodeView: View {
     var participant: Participant
 
     @State private var cardURL: URL?
+    // QRはURLが確定した時だけ生成し、bodyの再評価では完成画像を再利用します。
+    @State private var qrImage: UIImage?
     @State private var isPreparing = false
     @State private var preparationStarted = false
     @State private var errorMessage: String?
@@ -43,10 +45,8 @@ struct QRCodeView: View {
                     }
                     .buttonStyle(MEETIButtonStyle())
 
-                } else if let url = cardURL {
-                    if let qrImage = QRCodeGenerator.generate(
-                        from: url.absoluteString
-                    ) {
+                } else if cardURL != nil {
+                    if let qrImage {
                         Image(uiImage: qrImage)
                             .interpolation(.none)
                             .resizable()
@@ -104,6 +104,7 @@ struct QRCodeView: View {
         isPreparing = true
         errorMessage = nil
         cardURL = nil
+        qrImage = nil
 
         defer {
             isPreparing = false
@@ -155,6 +156,7 @@ struct QRCodeView: View {
                 return
             }
 
+            qrImage = QRCodeGenerator.generate(from: url.absoluteString)
             cardURL = url
 
         } catch {

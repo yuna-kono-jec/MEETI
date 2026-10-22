@@ -78,8 +78,9 @@ struct MEETIAvatar: View {
     var size: CGFloat = 130
     var body: some View {
         Group {
-            if let data = participant.photoData, let photo = UIImage(data: data) {
-                Image(uiImage: photo).resizable().scaledToFill()
+            if let data = participant.photoData, let thumbnail = PhotoThumbnail.shared.image(from: data) {
+                // 表示用の縮小画像を再利用し、画面の再評価で元写真を展開し直しません。
+                        Image(uiImage: UIImage(cgImage: thumbnail)).resizable().scaledToFill()
             } else {
                 Image(participant.mbti.uppercased()).resizable().scaledToFit()
             }

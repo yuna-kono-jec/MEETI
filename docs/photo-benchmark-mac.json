@@ -1,0 +1,10 @@
+{
+  "environment" : "Mac host, optimized Swift build, synthetic 4032x3024 JPEG; not iPhone app measurements",
+  "fullDecodedBufferBytes" : 48771072,
+  "fullDecodeMedianMs" : 8.7059166662584175,
+  "jpegBytes" : 192341,
+  "samples" : 15,
+  "thumbnailCachedMedianMs" : 0.083541666754172184,
+  "thumbnailColdMedianMs" : 12.567375000799075,
+  "thumbnailDecodedBufferBytes" : 3145728
+}

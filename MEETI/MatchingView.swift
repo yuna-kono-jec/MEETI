@@ -9,6 +9,9 @@ struct MatchingView: View {
     @State private var preferredAgeGroup = "指定しない"
     @State private var isLoading = true
     @State private var loadError = ""
+    // 条件変更では取得済みプロフィールを再利用し、古い通信結果の上書きを防ぎます。
+    @State private var hasLoadedParticipants = false
+    @State private var activeRequest = UUID()
 
     var body: some View {
         // Supabaseの参加者を読み込んでから相性を計算する
@@ -74,42 +77,51 @@ struct MatchingView: View {
                 }.buttonStyle(MEETIButtonStyle())
             }
         }
-        .task {
+        // 条件変更で前の処理をキャンセルし、同率全員の写真が揃ってから従来の結果ボタンを表示します。
+        .task(id: [preferredGender, preferredAgeGroup]) {
             await loadParticipants()
         }
-        .onChange(of: preferredGender) {
-            calculateBestMatch()
-        }
-        .onChange(of: preferredAgeGroup) {
-            calculateBestMatch()
+        .onDisappear {
+            // 再びこの画面へ戻ったときは、他端末で増えた参加者も従来どおり再取得します。
+            hasLoadedParticipants = false
         }
     }
 
     @MainActor
     private func loadParticipants() async {
+        let request = UUID()
+        activeRequest = request
         isLoading = true
         loadError = ""
-
         defer {
-            isLoading = false
+            // 中断した古い処理が、新しい読み込みの表示を解除しないようにします。
+            if activeRequest == request { isLoading = false }
         }
-
         do {
-            participants = try await ParticipantSyncService.fetchParticipants()
-            calculateBestMatch()
+            if !hasLoadedParticipants {
+                let fetched = try await ParticipantSyncService.fetchParticipants(includePhotos: false)
+                try Task.checkCancellation()
+                guard activeRequest == request else { return }
+                participants = fetched
+                hasLoadedParticipants = true
+            }
+            // 全員のプロフィールから、従来の計算・フィルタ・同率対応で結果を求めます。
+            let nextResult = BestMatchCalculator.findBestMatches(
+                participant: participant, candidates: participants,
+                preferredGender: preferredGender, preferredAgeGroup: preferredAgeGroup
+            )
+            // 写真を見せる人だけを取得します。結果画面へ進む時点では写真が準備済みです。
+            await ParticipantSyncService.loadPhotos(for: nextResult?.matches.map(\.participant) ?? [])
+            try Task.checkCancellation()
+            guard activeRequest == request else { return }
+            result = nextResult
+        } catch is CancellationError {
+            // 条件変更・画面終了による中断は、通信エラーとして表示しません。
         } catch {
+            guard activeRequest == request else { return }
             result = nil
             loadError = "共有データを読み込めませんでした。通信環境を確認してください。"
         }
-    }
-
-    private func calculateBestMatch() {
-        result = BestMatchCalculator.findBestMatches(
-            participant: participant,
-            candidates: participants,
-            preferredGender: preferredGender,
-            preferredAgeGroup: preferredAgeGroup
-        )
     }
 }
 

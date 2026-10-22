@@ -37,6 +37,7 @@ let package = Package(
             ],
             sources: [
                 "Participant.swift",
+                "PhotoThumbnail.swift", // 表示用画像の向き・縮小・再利用を検証します。
                 "MBTIQuestion.swift",
                 "MBTICalculator.swift",
                 "MBTITypeData.swift",

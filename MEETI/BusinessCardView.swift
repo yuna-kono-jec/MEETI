@@ -57,8 +57,9 @@ struct BusinessCardView: View {
             // 画像・名前・タイプを1つのプロフィールブロックにし、画像下の間隔を3ptにする。
             VStack(spacing: 3) {
                 // 写真を復元できる場合は写真だけを表示。写真なしの場合に背景の四角い枠は付けない。
-                if let data = participant.photoData, let photo = UIImage(data: data) {
-                    Image(uiImage: photo).resizable().scaledToFill()
+                if let data = participant.photoData, let thumbnail = PhotoThumbnail.shared.image(from: data) {
+                    // 表示用の縮小画像を再利用し、画面の再評価で元写真を展開し直しません。
+                        Image(uiImage: UIImage(cgImage: thumbnail)).resizable().scaledToFill()
                         .frame(width: imageSize, height: imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 14)).accessibilityHidden(true)
                 } else {
