@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        /* 写真縮小部品をMEETIアプリのコンパイル対象に含めます。 */
+		A7E3494C3C704FA099520A11 /* PhotoThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E3494C3C704FA099520A12 /* PhotoThumbnail.swift */; };
 		7F33F0343078B90D00BDD148 /* MEETIStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0333078B90D00BDD148 /* MEETIStyle.swift */; };
 		7F33F0363078B9BB00BDD148 /* BestMatchCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0353078B9BB00BDD148 /* BestMatchCalculator.swift */; };
 		7F33F0403078BABA00BDD148 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0373078BABA00BDD148 /* CameraPicker.swift */; };
@@ -44,6 +46,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+        /* Swift Packageだけでなく、Xcodeからも新規Swiftファイルを参照できるようにします。 */
+		A7E3494C3C704FA099520A12 /* PhotoThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoThumbnail.swift; sourceTree = "<group>"; };
 		7F33F0323078B5FD00BDD148 /* MEETI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEETI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F33F0333078B90D00BDD148 /* MEETIStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MEETIStyle.swift; sourceTree = "<group>"; };
 		7F33F0353078B9BB00BDD148 /* BestMatchCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestMatchCalculator.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 		7FE7F9E93075E7DD00CCB8A9 /* MEETI */ = {
 			isa = PBXGroup;
 			children = (
+				A7E3494C3C704FA099520A12 /* PhotoThumbnail.swift */,
 				7F33F0373078BABA00BDD148 /* CameraPicker.swift */,
 				7F4B001F30838FC4003EA9D8 /* PhotoUploadService.swift */,
 				7F4B002130842000003EA9D8 /* ParticipantSyncService.swift */,
@@ -235,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7E3494C3C704FA099520A11 /* PhotoThumbnail.swift in Sources */,
 				7F33F0343078B90D00BDD148 /* MEETIStyle.swift in Sources */,
 				7FE7F9EA3075E7DD00CCB8A9 /* BusinessCardView.swift in Sources */,
 				7FE7F9EB3075E7DD00CCB8A9 /* CardURLBuilder.swift in Sources */,

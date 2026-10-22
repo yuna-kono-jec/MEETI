@@ -94,3 +94,13 @@ Participantのスキーマ、SwiftDataの既存データ、MBTI診断・相性�
 
 - Apple ImageIO（向き・縦横比を保つサムネイル変換）：https://developer.apple.com/documentation/imageio/kcgimagesourcecreatethumbnailwithtransform
 - Apple CIContext（コンテキストの再利用）：https://developer.apple.com/documentation/coreimage/cicontext
+
+## 追補：PhotoThumbnailのXcodeターゲット登録漏れを修正
+
+`PhotoThumbnail.swift`はGitとSwift Packageのテストには含まれていましたが、従来形式のXcodeプロジェクトには自動追加されず、MEETIアプリのCompile Sourcesへの登録が抜けていました。このためProfileInputView等から型を参照できませんでした。
+
+project.pbxprojのPBXFileReference、MEETIグループ、PBXBuildFile、PBXSourcesBuildPhaseへ登録しました。動作や画像処理ロジックの変更はありません。テストコードとベンチマークの@mainはアプリには追加していません。
+
+再発確認：`python3 Tools/check_app_sources.py`。Xcodeプロジェクトをplutilで解析し、全30個のアプリSwiftファイルがSourcesに一度ずつ含まれることを確認します。`--write-file-list /tmp/meeti-app.SwiftFileList`で実際のターゲットの一覧を出力できます。
+
+検証結果：プロジェクト構文検証・全30ファイルの登録検査・14テスト・diffチェック成功。ターゲットから抽出した30ファイルを既存のSupabase依存モジュールとiOS18向けSwiftコンパイラでオブジェクトコードまでコンパイル成功。既存のSupabase非推奨API警告2箇所は残っています。xcodebuildは再実行したもののSwiftPMのキャッシュ書き込み権限で依存解決が停止し、完全なXcodeビルド成功は確認できていません。
