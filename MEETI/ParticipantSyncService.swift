@@ -6,6 +6,36 @@ enum ParticipantSyncService {
     private static let tableName = "participants"
     private static let photoBucketName = "meeti-photos"
 
+    // ここにphotoCacheとfetchPhotoを入れる
+    @MainActor
+    private static let photoCache: NSCache<NSString, NSData> = {
+        let cache = NSCache<NSString, NSData>()
+        cache.totalCostLimit = 20 * 1024 * 1024
+        return cache
+    }()
+
+    @MainActor
+    static func fetchPhoto(path: String) async throws -> Data {
+        if let cached = photoCache.object(forKey: path as NSString) {
+            return cached as Data
+        }
+
+        try await prepareSession()
+
+        let data = try await SupabaseService.client.storage
+            .from(photoBucketName)
+            .download(path: path)
+
+        photoCache.setObject(
+            data as NSData,
+            forKey: path as NSString,
+            cost: data.count
+        )
+
+        return data
+    }
+
+
     // Supabaseへ新しく送る参加者データ
     private struct NewParticipantRow: Encodable {
         let nickname: String
@@ -135,7 +165,7 @@ enum ParticipantSyncService {
     }
 
     @MainActor
-    static func fetchParticipants(includePhotos: Bool = true) async throws -> [Participant] {
+    static func fetchParticipants() async throws -> [Participant] {
         try await prepareSession()
 
         let rows: [ParticipantRow] = try await SupabaseService.client
@@ -145,37 +175,9 @@ enum ParticipantSyncService {
             .execute()
             .value
 
-        var participants: [Participant] = []
-
-        for row in rows {
-            var photoData: Data?
-
-            // 写真を取れないときはMBTI画像を使うので、参加者データは残す
-            // 相性計算に写真は不要なので、呼び出し側でメタデータだけの取得も選べます。
-            if includePhotos, let photoPath = row.photoPath {
-                photoData = try? await SupabaseService.client.storage
-                    .from(photoBucketName)
-                    .download(path: photoPath)
-            }
-
-            participants.append(row.makeParticipant(photoData: photoData))
-        }
-
-        return participants
-    }
-
-    // 表示する相手だけ写真を取得します。失敗時のMBTI画像へのフォールバックは従来どおりです。
-    // Participantはメインアクター内だけで扱い、フィルタ変更・画面終了時には後続の通信を止めます。
-    @MainActor
-    static func loadPhotos(for participants: [Participant]) async {
-        for participant in participants {
-            guard !Task.isCancelled else { return }
-            guard participant.photoData == nil, let path = participant.webPhotoPath else { continue }
-            let data = try? await SupabaseService.client.storage
-                .from(photoBucketName).download(path: path)
-            guard !Task.isCancelled else { return }
-            participant.photoData = data
-        }
+        // マッチング計算に必要な情報だけ先に返す。
+        // 写真の保存先はwebPhotoPathに保持される。
+        return rows.map { $0.makeParticipant() }
     }
 
     @MainActor

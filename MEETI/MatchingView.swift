@@ -77,7 +77,7 @@ struct MatchingView: View {
                 }.buttonStyle(MEETIButtonStyle())
             }
         }
-        // 条件変更で前の処理をキャンセルし、同率全員の写真が揃ってから従来の結果ボタンを表示します。
+        // 条件が変わったら前の処理を止めて、相性を計算し直す
         .task(id: [preferredGender, preferredAgeGroup]) {
             await loadParticipants()
         }
@@ -99,7 +99,7 @@ struct MatchingView: View {
         }
         do {
             if !hasLoadedParticipants {
-                let fetched = try await ParticipantSyncService.fetchParticipants(includePhotos: false)
+                let fetched = try await ParticipantSyncService.fetchParticipants()
                 try Task.checkCancellation()
                 guard activeRequest == request else { return }
                 participants = fetched
@@ -110,8 +110,7 @@ struct MatchingView: View {
                 participant: participant, candidates: participants,
                 preferredGender: preferredGender, preferredAgeGroup: preferredAgeGroup
             )
-            // 写真を見せる人だけを取得します。結果画面へ進む時点では写真が準備済みです。
-            await ParticipantSyncService.loadPhotos(for: nextResult?.matches.map(\.participant) ?? [])
+            // 写真は結果画面で取得するので、ここでは待たない
             try Task.checkCancellation()
             guard activeRequest == request else { return }
             result = nextResult
