@@ -76,19 +76,55 @@ struct MEETITypeImage: View {
 struct MEETIAvatar: View {
     let participant: Participant
     var size: CGFloat = 130
+
+    @State private var displayedPhoto: UIImage?
+
     var body: some View {
         Group {
-            if let data = participant.photoData, let photo = UIImage(data: data) {
-                Image(uiImage: photo).resizable().scaledToFill()
+            if let photo = displayedPhoto {
+                Image(uiImage: photo)
+                    .resizable()
+                    .scaledToFill()
             } else {
-                Image(participant.mbti.uppercased()).resizable().scaledToFit()
+                Image(participant.mbti.uppercased())
+                    .resizable()
+                    .scaledToFit()
             }
-        }.frame(width: size, height: size)
-            .background(MEETIStyle.beige.opacity(0.4))
-            .clipShape(RoundedRectangle(cornerRadius: 16)).accessibilityHidden(true)
+        }
+        .frame(width: size, height: size)
+        .background(MEETIStyle.beige.opacity(0.4))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .accessibilityHidden(true)
+        .task(id: participant.webPhotoPath) {
+            displayedPhoto = nil
+
+            // この端末で撮影した写真があれば先に使う
+            if let data = participant.photoData,
+               let image = UIImage(data: data) {
+                displayedPhoto = image
+                return
+            }
+
+            // 表示対象になった参加者の写真だけ取得する
+            guard let path = participant.webPhotoPath else {
+                return
+            }
+
+            do {
+                let data = try await ParticipantSyncService
+                    .fetchPhoto(path: path)
+
+                try Task.checkCancellation()
+                displayedPhoto = UIImage(data: data)
+            } catch is CancellationError {
+                // 画面を離れた場合は表示を更新しない
+            } catch {
+                // 写真取得に失敗してもMBTI画像で表示を続ける
+                print("MEETI: 写真を取得できませんでした")
+            }
+        }
     }
 }
-
 // お手本の淡い3色のタグを共通部品として表示する。
 struct MEETIInterestTags: View {
     let interests: [String]

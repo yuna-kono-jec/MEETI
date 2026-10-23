@@ -5,6 +5,36 @@ import Supabase
 enum ParticipantSyncService {
     private static let tableName = "participants"
     private static let photoBucketName = "meeti-photos"
+    
+    // ここにphotoCacheとfetchPhotoを入れる
+    @MainActor
+    private static let photoCache: NSCache<NSString, NSData> = {
+        let cache = NSCache<NSString, NSData>()
+        cache.totalCostLimit = 20 * 1024 * 1024
+        return cache
+    }()
+
+    @MainActor
+    static func fetchPhoto(path: String) async throws -> Data {
+        if let cached = photoCache.object(forKey: path as NSString) {
+            return cached as Data
+        }
+
+        try await prepareSession()
+
+        let data = try await SupabaseService.client.storage
+            .from(photoBucketName)
+            .download(path: path)
+
+        photoCache.setObject(
+            data as NSData,
+            forKey: path as NSString,
+            cost: data.count
+        )
+
+        return data
+    }
+
 
     // Supabaseへ新しく送る参加者データ
     private struct NewParticipantRow: Encodable {
@@ -145,22 +175,9 @@ enum ParticipantSyncService {
             .execute()
             .value
 
-        var participants: [Participant] = []
-
-        for row in rows {
-            var photoData: Data?
-
-            // 写真を取れないときはMBTI画像を使うので、参加者データは残す
-            if let photoPath = row.photoPath {
-                photoData = try? await SupabaseService.client.storage
-                    .from(photoBucketName)
-                    .download(path: photoPath)
-            }
-
-            participants.append(row.makeParticipant(photoData: photoData))
-        }
-
-        return participants
+        // マッチング計算に必要な情報だけ先に返す。
+        // 写真の保存先はwebPhotoPathに保持される。
+        return rows.map { $0.makeParticipant() }
     }
 
     @MainActor

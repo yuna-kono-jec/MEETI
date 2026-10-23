@@ -16,6 +16,7 @@ struct ProfileInputView: View {
     @State private var gender = "男性"
     @State private var ageGroup = "10〜19歳"
     @State private var photoData: Data?
+    @State private var previewImage: UIImage?
     @State private var showPhotoNotice = false
     @State private var showCamera = false
     @State private var showCameraUnavailable = false
@@ -26,7 +27,7 @@ struct ProfileInputView: View {
             // MBTI決定前なので、写真がない場合は人物アイコンを表示する。
             VStack(spacing: 12) {
                 Group {
-                    if let data = photoData, let photo = UIImage(data: data) {
+                    if let photo = previewImage {
                         Image(uiImage: photo)
                             .resizable()
                             .scaledToFill()
@@ -116,6 +117,9 @@ struct ProfileInputView: View {
             } label: { Label("MBTIを決める", systemImage: "arrow.right") }
                 .buttonStyle(MEETIButtonStyle()).disabled(interests.count != 3)
         }.scrollDismissesKeyboard(.interactively)
+            .onChange(of: photoData) { _, newData in
+                previewImage = newData.flatMap { UIImage(data: $0) }
+            }
             .alert("写真を利用する前に", isPresented: $showPhotoNotice) {
                 Button("キャンセル", role: .cancel) {}
                 Button("同意して撮影") {
