@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-// プロフィールとマッチングで使う選択肢です。
+// プロフィールとマッチングで使う選択肢
 let genderOptions = ["男性", "女性"]
 let matchingGenderOptions = ["どちらでも", "男性", "女性"]
 let ageGroupOptions = [
