@@ -58,6 +58,14 @@ struct OperatorLoginView: View {
                 }
             }
             if loginSucceeded {
+                Section("名刺の管理") {
+                    NavigationLink {
+                        OperatorParticipantsView()
+                    } label: {
+                        Text("登録済み名刺を確認・削除")
+                    }
+                }
+
                 Section("アップロード確認") {
                     Button {
                         Task {
