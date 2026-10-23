@@ -52,7 +52,9 @@ struct MBTIResultView: View {
             savedParticipant = participant
             showBusinessCard = true
         } catch {
-            saveError = "参加者データを保存できませんでした。通信環境を確認して、もう一度試してください。\n\(error.localizedDescription)"
+            let detail = String(reflecting: error)
+            print("MEETI保存エラー: \(detail)")
+            saveError = "名刺の保存処理で失敗しました。\n\(detail)"
         }
     }
     
