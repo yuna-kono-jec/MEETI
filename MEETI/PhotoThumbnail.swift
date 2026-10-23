@@ -2,30 +2,50 @@ import Foundation
 import ImageIO
 import CryptoKit
 
-// 表示用にだけ写真を縮小します。SwiftDataの写真やアップロード元データは変更しません。
-// メインアクターでキャッシュ操作を直列化し、重い元画像の再デコードを画面更新ごとに繰り返しません。
+// 表示用だけ縮小する。保存している元写真は変更しない
 @MainActor
 final class PhotoThumbnail {
     static let shared = PhotoThumbnail()
     private let cache = NSCache<NSString, CGImage>()
 
     init() {
-        // キャッシュ（再利用用の一時保管）の上限。メモリ不足時はOSが画像を破棄できます。
+        // 縮小した写真を一時保管する。メモリ不足時は自動で減らせる
         cache.totalCostLimit = 32 * 1024 * 1024
         cache.countLimit = 24
     }
 
-    func image(from data: Data, maxPixelSize: Int = 1024) -> CGImage? {
-        guard maxPixelSize > 0 else { return nil }
-        // 個人情報を含むDataそのものをキーとして保持せず、写真の更新も区別します。
-        let digest = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    func image(from data: Data, maxPixelSize: Int = 1024) async -> CGImage? {
+        guard maxPixelSize > 0, !Task.isCancelled else { return nil }
+
+        // 写真を見分ける計算も、画面操作を止めない場所で行う
+        let digest = await Task.detached(priority: .userInitiated) {
+            SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        }.value
+        guard !Task.isCancelled else { return nil }
+
         let key = "\(maxPixelSize):\(digest)" as NSString
         if let image = cache.object(forKey: key) { return image }
-        guard let image = Self.decode(data, maxPixelSize: maxPixelSize) else { return nil }
+
+        // 写真の展開と縮小をバックグラウンドで行う
+        let decoding = Task.detached(priority: .userInitiated) {
+            guard !Task.isCancelled else { return nil as CGImage? }
+            return autoreleasepool {
+                Self.decode(data, maxPixelSize: maxPixelSize)
+            }
+        }
+        let decoded = await withTaskCancellationHandler {
+            await decoding.value
+        } onCancel: {
+            decoding.cancel()
+        }
+        guard !Task.isCancelled, let image = decoded else { return nil }
+
+        // 同じ写真の処理が先に終わっていたら、その画像を使う
+        if let cached = cache.object(forKey: key) { return cached }
         cache.setObject(image, forKey: key, cost: image.bytesPerRow * image.height)
         return image
     }
-    // UIKitの画面状態に触れない縮小処理。プロフィールではバックグラウンドから呼び出します。
+    // 向きを直しながら、指定した画素数以内に縮小する
     nonisolated static func decode(_ data: Data, maxPixelSize: Int = 1024) -> CGImage? {
         guard maxPixelSize > 0 else { return nil }
         guard let source = CGImageSourceCreateWithData(data as CFData, [kCGImageSourceShouldCache: false] as CFDictionary),

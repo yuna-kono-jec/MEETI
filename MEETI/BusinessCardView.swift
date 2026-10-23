@@ -3,6 +3,7 @@ import UIKit
 
 struct BusinessCardView: View {
     var participant: Participant
+    @State private var displayedPhoto: UIImage?
 
     var body: some View {
         // カードとボタンを縦に並べて、大きな空白をなくす
@@ -20,11 +21,11 @@ struct BusinessCardView: View {
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(MEETIButtonStyle())
-                    // 保存・遷移の処理は維持し、名刺の直下からMatchingViewへ進む。
+                    // 名刺は保存済みなので、ここからマッチングへ進む。
                     NavigationLink { MatchingView(participant: participant) } label: {
                         HStack {
                             Spacer()
-                            Text("この内容で登録する")
+                            Text("マッチングへ進む")
                             Spacer()
                             Image(systemName: "arrow.right")
                         }
@@ -40,6 +41,14 @@ struct BusinessCardView: View {
         .foregroundStyle(MEETIStyle.ink)
         .tint(MEETIStyle.green)
         .navigationBarTitleDisplayMode(.inline)
+        .task(id: participant.photoData) {
+            // 名刺の表示中に大きな写真を何度も展開しない
+            displayedPhoto = nil
+            guard let data = participant.photoData else { return }
+            let thumbnail = await PhotoThumbnail.shared.image(from: data)
+            guard !Task.isCancelled else { return }
+            displayedPhoto = thumbnail.map { UIImage(cgImage: $0) }
+        }
     }
 
     // お手本に合わせて、この画面だけ小さな間隔とコンパクトな画像で名刺を組み立てる。
@@ -57,9 +66,8 @@ struct BusinessCardView: View {
             // 画像・名前・タイプを1つのプロフィールブロックにし、画像下の間隔を3ptにする。
             VStack(spacing: 3) {
                 // 写真を復元できる場合は写真だけを表示。写真なしの場合に背景の四角い枠は付けない。
-                if let data = participant.photoData, let thumbnail = PhotoThumbnail.shared.image(from: data) {
-                    // 表示用の縮小画像を再利用し、画面の再評価で元写真を展開し直しません。
-                        Image(uiImage: UIImage(cgImage: thumbnail)).resizable().scaledToFill()
+                if let photo = displayedPhoto {
+                    Image(uiImage: photo).resizable().scaledToFill()
                         .frame(width: imageSize, height: imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 14)).accessibilityHidden(true)
                 } else {

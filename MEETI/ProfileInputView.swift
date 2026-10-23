@@ -16,7 +16,7 @@ struct ProfileInputView: View {
     @State private var gender = "男性"
     @State private var ageGroup = "10〜19歳"
     @State private var photoData: Data?
-    // bodyではJPEGをデコードせず、写真が変わったときだけ作る表示用画像を保持します。
+    // 写真が変わったときだけ、表示用の小さい画像を作る
     @State private var previewPhoto: UIImage?
     @State private var showPhotoNotice = false
     @State private var showCamera = false
@@ -29,7 +29,7 @@ struct ProfileInputView: View {
             VStack(spacing: 12) {
                 Group {
                     if photoData != nil, let photo = previewPhoto {
-                        // スクロール・文字入力・趣味選択で再評価されても、準備済み画像をそのまま表示します。
+                        // 入力中は作成済みの画像を使う
                         Image(uiImage: photo)
                             .resizable()
                             .scaledToFill()
@@ -120,13 +120,11 @@ struct ProfileInputView: View {
                 .buttonStyle(MEETIButtonStyle()).disabled(interests.count != 3)
         }.scrollDismissesKeyboard(.interactively)
             .task(id: photoData) {
-                // 撮影・撮り直し・削除時だけ実行。縮小画像の生成はメインスレッドから外します。
+                // 写真の処理中も入力やスクロールを止めない
                 previewPhoto = nil
                 guard let data = photoData else { return }
-                let thumbnail = await Task.detached(priority: .userInitiated) {
-                    PhotoThumbnail.decode(data)
-                }.value
-                // 前の撮影処理が遅れて完了しても、新しい写真や削除後の画面を上書きしません。
+                let thumbnail = await PhotoThumbnail.shared.image(from: data)
+                // 撮り直しや削除の後に、古い写真を戻さない
                 guard !Task.isCancelled else { return }
                 previewPhoto = thumbnail.map { UIImage(cgImage: $0) }
             }

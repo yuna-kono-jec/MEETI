@@ -8,7 +8,8 @@ struct MatchResultView: View {
     var body: some View {
         // 同率1位の全員表示と、本人データの引き継ぎを維持する。
         MEETIScreen(eyebrow: "06 / BEST MATCH", title: "あなたのベストマッチ", subtitle: "共通点をきっかけに、話しかけてみよう。") {
-            VStack(spacing: 24) {
+            // 同率が多くても、見えるカードから表示する
+            LazyVStack(spacing: 24) {
 
 
                 if let result = result {
@@ -78,4 +79,3 @@ struct MatchResultView: View {
         )
     )
 }
-

@@ -99,10 +99,13 @@ struct MEETIAvatar: View {
             displayedPhoto = nil
 
             // この端末で撮影した写真があれば先に使う
-            if let data = participant.photoData,
-               let image = UIImage(data: data) {
-                displayedPhoto = image
-                return
+            if let data = participant.photoData {
+                let thumbnail = await PhotoThumbnail.shared.image(from: data)
+                guard !Task.isCancelled else { return }
+                if let thumbnail {
+                    displayedPhoto = UIImage(cgImage: thumbnail)
+                    return
+                }
             }
 
             // 表示対象になった参加者の写真だけ取得する
@@ -114,8 +117,9 @@ struct MEETIAvatar: View {
                 let data = try await ParticipantSyncService
                     .fetchPhoto(path: path)
 
+                let thumbnail = await PhotoThumbnail.shared.image(from: data)
                 try Task.checkCancellation()
-                displayedPhoto = UIImage(data: data)
+                displayedPhoto = thumbnail.map { UIImage(cgImage: $0) }
             } catch is CancellationError {
                 // 画面を離れた場合は表示を更新しない
             } catch {

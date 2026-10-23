@@ -6,7 +6,7 @@ import ImageIO
 @main
 struct PhotoThumbnailBenchmark {
     @MainActor
-    static func main() throws {
+    static func main() async throws {
         let context = CGContext(data: nil, width: 4032, height: 3024, bitsPerComponent: 8,
                                 bytesPerRow: 4032 * 4, space: CGColorSpaceCreateDeviceRGB(),
                                 bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
@@ -23,6 +23,11 @@ struct PhotoThumbnailBenchmark {
             autoreleasepool(invoking: work)
             return (ProcessInfo.processInfo.systemUptime - start) * 1000
         }
+        func measureAsync(_ work: () async -> Void) async -> Double {
+            let start = ProcessInfo.processInfo.systemUptime
+            await work()
+            return (ProcessInfo.processInfo.systemUptime - start) * 1000
+        }
         // 画像の全画素展開を伴う旧表示経路の比較用。UIKit描画全体を測っているわけではありません。
         func fullImage() -> CGImage {
             let source = CGImageSourceCreateWithData(data as CFData, nil)!
@@ -30,12 +35,12 @@ struct PhotoThumbnailBenchmark {
         }
         let full = fullImage()
         let cache = PhotoThumbnail()
-        let thumbnail = cache.image(from: data)!
+        let thumbnail = await cache.image(from: data)!
         var fullTimes: [Double] = [], coldTimes: [Double] = [], warmTimes: [Double] = []
         for _ in 0..<15 {
             fullTimes.append(measure { _ = fullImage() })
-            coldTimes.append(measure { _ = PhotoThumbnail().image(from: data) })
-            warmTimes.append(measure { _ = cache.image(from: data) })
+            coldTimes.append(await measureAsync { _ = await PhotoThumbnail().image(from: data) })
+            warmTimes.append(await measureAsync { _ = await cache.image(from: data) })
         }
         let result: [String: Any] = [
             "environment": "Mac host, optimized Swift build, synthetic 4032x3024 JPEG; not iPhone app measurements",

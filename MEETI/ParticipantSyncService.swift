@@ -6,7 +6,7 @@ enum ParticipantSyncService {
     private static let tableName = "participants"
     private static let photoBucketName = "meeti-photos"
 
-    // ここにphotoCacheとfetchPhotoを入れる
+    // 取得済みの写真は使い回す
     @MainActor
     private static let photoCache: NSCache<NSString, NSData> = {
         let cache = NSCache<NSString, NSData>()
@@ -83,6 +83,7 @@ enum ParticipantSyncService {
             case createdAt = "created_at"
         }
 
+        @MainActor
         func makeParticipant(photoData: Data? = nil) -> Participant {
             let participant = Participant(
                 number: number,
@@ -175,9 +176,17 @@ enum ParticipantSyncService {
             .execute()
             .value
 
-        // マッチング計算に必要な情報だけ先に返す。
-        // 写真の保存先はwebPhotoPathに保持される。
-        return rows.map { $0.makeParticipant() }
+        // 人数が多いときは、ときどき画面操作に処理を譲る
+        var participants: [Participant] = []
+        participants.reserveCapacity(rows.count)
+        for (index, row) in rows.enumerated() {
+            if index.isMultiple(of: 25) {
+                await Task.yield()
+                try Task.checkCancellation()
+            }
+            participants.append(row.makeParticipant())
+        }
+        return participants
     }
 
     @MainActor
@@ -191,15 +200,23 @@ enum ParticipantSyncService {
         _ = try await SupabaseService.client.auth.signInAnonymously()
     }
 
-    private static func date(from text: String) -> Date {
+    // 日付を読む道具を、参加者ごとに作り直さない
+    @MainActor
+    private static let fractionalDateFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
 
-        if let date = formatter.date(from: text) {
-            return date
-        }
-
+    @MainActor
+    private static let dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime]
-        return formatter.date(from: text) ?? Date()
+        return formatter
+    }()
+
+    @MainActor
+    private static func date(from text: String) -> Date {
+        fractionalDateFormatter.date(from: text) ?? dateFormatter.date(from: text) ?? Date()
     }
 }
