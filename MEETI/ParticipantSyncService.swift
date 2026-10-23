@@ -81,36 +81,57 @@ enum ParticipantSyncService {
         ageGroup: String,
         photoData: Data?
     ) async throws -> Participant {
-        try await prepareSession()
+        var stage = "認証"
 
-        // 写真があるときだけ先にStorageへ送る
-        var photoPath: String?
-        if let photoData {
-            photoPath = try await PhotoUploadService.uploadPhoto(
-                photoData: photoData
+        do {
+            print("MEETI: \(stage)開始")
+            try await prepareSession()
+            print("MEETI: 認証成功")
+
+            // 写真があるときだけ先にStorageへ送る
+            var photoPath: String?
+            if let photoData {
+                stage = "写真保存"
+                print("MEETI: \(stage)開始")
+
+                photoPath = try await PhotoUploadService.uploadPhoto(
+                    photoData: photoData
+                )
+
+                print("MEETI: 写真保存成功")
+            } else {
+                print("MEETI: 写真なし")
+            }
+
+            let newRow = NewParticipantRow(
+                nickname: nickname,
+                mbti: mbti,
+                interests: interests,
+                message: message,
+                gender: gender,
+                ageGroup: ageGroup,
+                photoPath: photoPath
             )
+
+            stage = "参加者保存・応答読み取り"
+            print("MEETI: \(stage)開始")
+
+            let row: ParticipantRow = try await SupabaseService.client
+                .from(tableName)
+                .insert(newRow)
+                .select()
+                .single()
+                .execute()
+                .value
+
+            print("MEETI: 参加者保存・応答読み取り成功")
+            return row.makeParticipant(photoData: photoData)
+
+        } catch {
+            print("MEETI: \(stage)で失敗")
+            print(String(reflecting: error))
+            throw error
         }
-
-        let newRow = NewParticipantRow(
-            nickname: nickname,
-            mbti: mbti,
-            interests: interests,
-            message: message,
-            gender: gender,
-            ageGroup: ageGroup,
-            photoPath: photoPath
-        )
-
-        // Supabase側で全端末共通の受付番号を付けてもらう
-        let row: ParticipantRow = try await SupabaseService.client
-            .from(tableName)
-            .insert(newRow)
-            .select()
-            .single()
-            .execute()
-            .value
-
-        return row.makeParticipant(photoData: photoData)
     }
 
     @MainActor
