@@ -6,16 +6,15 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct QRCodeView: View {
     @Environment(\.finishMEETIExperience)
     private var finishExperience
 
-    @Environment(\.modelContext)
-    private var modelContext
+    // 送信済みの写真パスと共有トークンを、iOS 16でも永続化します。
+    @EnvironmentObject private var participantStore: ParticipantStore
 
-    var participant: Participant
+    @ObservedObject var participant: ParticipantProfile
 
     @State private var cardURL: URL?
     // QRはURLが確定した時だけ生成し、bodyの再評価では完成画像を再利用します。
@@ -134,7 +133,7 @@ struct QRCodeView: View {
                     )
 
                     participant.webPhotoPath = path
-                    try modelContext.save()
+                    try participantStore.save(participant)
                 }
 
                 let registration =
@@ -147,7 +146,7 @@ struct QRCodeView: View {
             }
 
             // 保存できたことを確認してからQRを表示
-            try modelContext.save()
+            try participantStore.save(participant)
 
             guard let url = CardURLBuilder.makeURL(
                 from: participant
@@ -169,7 +168,7 @@ struct QRCodeView: View {
 #Preview {
     NavigationStack {
         QRCodeView(
-            participant: Participant(
+            participant: ParticipantProfile(
                 number: 1,
                 nickname: "ゆな",
                 mbti: "ENTJ",
@@ -178,5 +177,6 @@ struct QRCodeView: View {
             )
         )
     }
-    .modelContainer(for: Participant.self, inMemory: true)
+    // Previewはメモリ上のStoreを使い、端末内の実保存データには触れません。
+    .environmentObject(try! ParticipantStore(inMemory: true))
 }

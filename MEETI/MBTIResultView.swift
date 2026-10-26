@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MBTIResultView: View {
-    @Environment(\.modelContext) private var modelContext
-    @State private var savedParticipant: Participant?
+    // Supabase保存後の端末保存は、OSに対応する共通Storeに委ねます。
+    @EnvironmentObject private var participantStore: ParticipantStore
+    @State private var savedParticipant: ParticipantProfile?
     @State private var showBusinessCard = false
     @State private var isSaving = false
     @State private var saveError = ""
@@ -46,8 +46,7 @@ struct MBTIResultView: View {
                 photoData: photoData
             )
 
-            modelContext.insert(participant)
-            try modelContext.save()
+            try participantStore.save(participant)
 
             savedParticipant = participant
             showBusinessCard = true
@@ -108,4 +107,6 @@ struct MBTIResultView: View {
         mbti: "ENTJ",
         photoData: nil
     )
+    // Previewの保存操作も実データを開かず、メモリ上で行います。
+    .environmentObject(try! ParticipantStore(inMemory: true))
 }

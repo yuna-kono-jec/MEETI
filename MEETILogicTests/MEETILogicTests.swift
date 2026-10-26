@@ -1,5 +1,4 @@
 import XCTest
-import SwiftData
 @testable import MEETILogic
 
 final class MEETILogicTests: XCTestCase {
@@ -81,26 +80,19 @@ final class MEETILogicTests: XCTestCase {
         XCTAssertEqual(result?.score, 80)
     }
 
+    // iOS 16と同じCore Data経路でも、保存済み参加者から正しく計算できることを確認します。
+    @MainActor
     func testBestMatchUsesSavedParticipants() throws {
-        let schema = Schema([Participant.self])
-        let configuration = ModelConfiguration(
-            schema: schema,
-            isStoredInMemoryOnly: true
-        )
-        let container = try ModelContainer(
-            for: schema,
-            configurations: [configuration]
-        )
-        let context = ModelContext(container)
+        let store = try ParticipantStore(inMemory: true, forceCoreData: true)
 
         let me = participant(1, "自分", "ENFJ", ["音楽"])
         let candidate = participant(2, "候補", "ENFJ", ["音楽"])
-        context.insert(me)
-        context.insert(candidate)
+        try store.save(me)
+        try store.save(candidate)
 
         let result = BestMatchCalculator.findBestMatches(
             participant: me,
-            modelContext: context
+            participantStore: store
         )
 
         XCTAssertEqual(result?.matches.first?.participant.nickname, "候補")
@@ -131,8 +123,8 @@ final class MEETILogicTests: XCTestCase {
         _ interests: [String],
         _ gender: String = "未回答",
         _ ageGroup: String = "未回答"
-    ) -> Participant {
-        return Participant(
+    ) -> ParticipantProfile {
+        return ParticipantProfile(
             number: number,
             nickname: nickname,
             mbti: mbti,

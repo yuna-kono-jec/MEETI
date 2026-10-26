@@ -12,8 +12,9 @@ struct CompatibilityCalculator {
 
     // 2人の相性を計算する
     static func calculate(
-        first: Participant,
-        second: Participant
+        // 計算式を変えず、iOS 16対応の共通プロフィールを受け取ります。
+        first: ParticipantProfile,
+        second: ParticipantProfile
     ) -> CompatibilityResult {
 
         var mbtiScore = 0

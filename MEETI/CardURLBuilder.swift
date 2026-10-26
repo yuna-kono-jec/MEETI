@@ -8,7 +8,8 @@
 import Foundation
 
 struct CardURLBuilder {
-    static func makeURL(from participant: Participant) -> URL? {
+    // データ型だけを共通モデルに変更し、URLの項目・公開条件・エンコードは維持します。
+    static func makeURL(from participant: ParticipantProfile) -> URL? {
         var components = URLComponents(
             string: "https://yuna-kono-jec.github.io/MEETI/MEETI/WebCard/"
         )

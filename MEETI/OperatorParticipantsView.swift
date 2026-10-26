@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 import Supabase
 
 struct OperatorParticipantsView: View {
@@ -18,7 +17,8 @@ struct OperatorParticipantsView: View {
     }
     private struct DeleteResponse: Decodable { let deleted: Bool }
     private let operatorID = "b6a5494b-4545-4beb-8d83-7c92a0cf8da3"
-    @Environment(\.modelContext) private var modelContext
+    // サーバー削除成功後、同じremoteIDのローカル記録だけを整理します。
+    @EnvironmentObject private var participantStore: ParticipantStore
     @State private var cards: [Card] = []
     @State private var pending: Card?
     @State private var busy = false
@@ -133,14 +133,7 @@ struct OperatorParticipantsView: View {
             notice = "No. \(card.number)をサーバーから削除しました。"
             // この端末に保存された同じ参加者も削除する。
             do {
-                let id = card.id
-                let descriptor = FetchDescriptor<Participant>(
-                    predicate: #Predicate { $0.remoteID == id }
-                )
-                for participant in try modelContext.fetch(descriptor) {
-                    modelContext.delete(participant)
-                }
-                try modelContext.save()
+                try participantStore.delete(remoteID: card.id)
             } catch {
                 errorMessage = "サーバーからは削除済みですが、この端末内のデータ整理に失敗しました。"
             }

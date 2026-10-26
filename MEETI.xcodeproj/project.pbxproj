@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160000000000000000000001 /* ParticipantProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160000000000000000000011; };
+		160000000000000000000002 /* ParticipantStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160000000000000000000012; };
+		160000000000000000000003 /* CoreDataParticipantStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160000000000000000000013; };
+		160000000000000000000004 /* SwiftDataParticipantStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160000000000000000000014; };
         /* 写真縮小部品をMEETIアプリのコンパイル対象に含めます。 */
 		A7E3494C3C704FA099520A11 /* PhotoThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E3494C3C704FA099520A12 /* PhotoThumbnail.swift */; };
 		7F33F0343078B90D00BDD148 /* MEETIStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33F0333078B90D00BDD148 /* MEETIStyle.swift */; };
@@ -47,6 +51,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		160000000000000000000011 /* iOS 16対応の共通参加者データ */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantProfile.swift; sourceTree = "<group>"; };
+		160000000000000000000012 /* 保存先の安全な切り替え */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantStore.swift; sourceTree = "<group>"; };
+		160000000000000000000013 /* iOS 16の保存処理 */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataParticipantStorage.swift; sourceTree = "<group>"; };
+		160000000000000000000014 /* 既存SwiftDataを維持する保存処理 */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataParticipantStorage.swift; sourceTree = "<group>"; };
         /* Swift Packageだけでなく、Xcodeからも新規Swiftファイルを参照できるようにします。 */
 		A7E3494C3C704FA099520A12 /* PhotoThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoThumbnail.swift; sourceTree = "<group>"; };
 		7F33F0323078B5FD00BDD148 /* MEETI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEETI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +118,10 @@
 			isa = PBXGroup;
 			children = (
 				A7E3494C3C704FA099520A12 /* PhotoThumbnail.swift */,
+				160000000000000000000011,
+				160000000000000000000012,
+				160000000000000000000013,
+				160000000000000000000014,
 				7F33F0373078BABA00BDD148 /* CameraPicker.swift */,
 				7F4B001F30838FC4003EA9D8 /* PhotoUploadService.swift */,
 				7F4B002130842000003EA9D8 /* ParticipantSyncService.swift */,
@@ -244,6 +256,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7E3494C3C704FA099520A11 /* PhotoThumbnail.swift in Sources */,
+				160000000000000000000001,
+				160000000000000000000002,
+				160000000000000000000003,
+				160000000000000000000004,
 				7F33F0343078B90D00BDD148 /* MEETIStyle.swift in Sources */,
 				7FE7F9EA3075E7DD00CCB8A9 /* BusinessCardView.swift in Sources */,
 				7FE7F9EB3075E7DD00CCB8A9 /* CardURLBuilder.swift in Sources */,
@@ -333,7 +349,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0; /* iPhone 8のiOS 16を対象にする */
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -391,7 +407,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0; /* iPhone 8のiOS 16を対象にする */
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -417,12 +433,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0; /* アプリの最小対応OSを統一する */
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				/* SwiftDataが存在しないiOS 16でも起動できるよう任意リンクにする */
+				OTHER_LDFLAGS = ("$(inherited)", "-weak_framework", SwiftData);
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.jec.cm0125.MEETI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -451,12 +469,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0; /* アプリの最小対応OSを統一する */
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				/* SwiftDataが存在しないiOS 16でも起動できるよう任意リンクにする */
+				OTHER_LDFLAGS = ("$(inherited)", "-weak_framework", SwiftData);
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.jec.cm0125.MEETI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

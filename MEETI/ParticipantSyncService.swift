@@ -84,8 +84,9 @@ enum ParticipantSyncService {
         }
 
         @MainActor
-        func makeParticipant(photoData: Data? = nil) -> Participant {
-            let participant = Participant(
+        // サーバーの列と型を維持したまま、OS非依存の表示モデルへ変換します。
+        func makeParticipant(photoData: Data? = nil) -> ParticipantProfile {
+            let participant = ParticipantProfile(
                 number: number,
                 nickname: nickname,
                 mbti: mbti,
@@ -111,7 +112,7 @@ enum ParticipantSyncService {
         gender: String,
         ageGroup: String,
         photoData: Data?
-    ) async throws -> Participant {
+    ) async throws -> ParticipantProfile {
         var stage = "認証"
 
         do {
@@ -166,7 +167,7 @@ enum ParticipantSyncService {
     }
 
     @MainActor
-    static func fetchParticipants() async throws -> [Participant] {
+    static func fetchParticipants() async throws -> [ParticipantProfile] {
         try await prepareSession()
 
         let rows: [ParticipantRow] = try await SupabaseService.client
@@ -177,7 +178,7 @@ enum ParticipantSyncService {
             .value
 
         // 人数が多いときは、ときどき画面操作に処理を譲る
-        var participants: [Participant] = []
+        var participants: [ParticipantProfile] = []
         participants.reserveCapacity(rows.count)
         for (index, row) in rows.enumerated() {
             if index.isMultiple(of: 25) {

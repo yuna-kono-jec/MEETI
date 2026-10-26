@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct MatchingView: View {
-    var participant: Participant
+    // 保存方式を切り離した本人情報を使用し、フィルタ・計算式は変更しません。
+    @ObservedObject var participant: ParticipantProfile
 
     @State private var result: BestMatchResult?
-    @State private var participants: [Participant] = []
+    @State private var participants: [ParticipantProfile] = []
     @State private var preferredGender = "どちらでも"
     @State private var preferredAgeGroup = "指定しない"
     @State private var isLoading = true
@@ -126,7 +127,7 @@ struct MatchingView: View {
 
 #Preview {
     MatchingView(
-        participant: Participant(
+        participant: ParticipantProfile(
             number: 1,
             nickname: "ゆな",
             mbti: "ENTJ",

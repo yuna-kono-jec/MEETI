@@ -3,7 +3,8 @@ import SwiftUI
 struct MatchResultView: View {
     var result: BestMatchResult?
     
-    var currentParticipant: Participant
+    // 本人のデータは共通プロフィールとして、そのままQR画面まで渡します。
+    @ObservedObject var currentParticipant: ParticipantProfile
 
     var body: some View {
         // 同率1位の全員表示と、本人データの引き継ぎを維持する。
@@ -56,7 +57,7 @@ struct MatchResultView: View {
         }
     }
     // 小さな端末でも左右の名刺を収める、マッチング結果用の表示。
-    private func matchIdentity(_ participant: Participant) -> some View {
+    private func matchIdentity(_ participant: ParticipantProfile) -> some View {
         VStack(spacing: 8) {
             MEETIAvatar(participant: participant, size: 90).clipShape(Circle())
             Text(String(format: "No. %03d", participant.number)).font(.caption2)
@@ -70,7 +71,7 @@ struct MatchResultView: View {
 #Preview {
     MatchResultView(
         result: nil,
-        currentParticipant: Participant(
+        currentParticipant: ParticipantProfile(
             number: 1,
             nickname: "ゆな",
             mbti: "ENTJ",

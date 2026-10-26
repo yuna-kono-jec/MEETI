@@ -6,27 +6,28 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct MEETIApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Participant.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    // 画面履歴のリセットより外に保存窓口を保持し、体験終了でデータを失わないようにします。
+    @StateObject private var participantStore: ParticipantStore
 
+    init() {
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            // StateObjectの遅延生成にthrowを渡さず、保存先の初期化エラーをここで扱います。
+            let store = try ParticipantStore()
+            _participantStore = StateObject(wrappedValue: store)
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            // 読み込みに失敗したとき、既存DBの削除や空DBへの切り替えは行いません。
+            fatalError("Could not create ParticipantStore: \(error)")
         }
-    }()
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                // SceneではなくViewへ注入し、iOS 16の環境オブジェクトAPIを使用します。
+                .environmentObject(participantStore)
         }
-        .modelContainer(sharedModelContainer)
     }
 }

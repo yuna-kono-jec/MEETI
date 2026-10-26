@@ -2,7 +2,8 @@ import SwiftUI
 import UIKit
 
 struct BusinessCardView: View {
-    var participant: Participant
+    // 写真などの変更をiOS 16対応モデルから受け取り、既存の名刺表示を維持します。
+    @ObservedObject var participant: ParticipantProfile
     @State private var displayedPhoto: UIImage?
 
     var body: some View {
@@ -14,14 +15,7 @@ struct BusinessCardView: View {
                     .foregroundStyle(MEETIStyle.green)
                 VStack(spacing: 10) {
                     compactCard(imageSize: 160)
-                    NavigationLink {
-                        QRCodeView(participant: participant)
-                    } label: {
-                        Text("QRコードを表示")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(MEETIButtonStyle())
-                    // 名刺は保存済みなので、ここからマッチングへ進む。
+                    // QR表示は体験の最後に残し、この名刺の直下にはマッチングボタンだけを配置します。
                     NavigationLink { MatchingView(participant: participant) } label: {
                         HStack {
                             Spacer()
@@ -36,7 +30,7 @@ struct BusinessCardView: View {
             .frame(maxWidth: .infinity)
         }
         // 長い文章や大きな文字設定では、カードとボタンを一緒にスクロールできる。
-        .scrollBounceBehavior(.basedOnSize)
+        .meetiCompatibleScrollBounce()
         .background(MEETIStyle.ivory.ignoresSafeArea())
         .foregroundStyle(MEETIStyle.ink)
         .tint(MEETIStyle.green)
@@ -166,11 +160,11 @@ struct BusinessCardView: View {
 // 写真なしの異なるタイプをプレビューし、本人に対応する画像表示を確認できる。
 #Preview("INFP・写真なし") {
     NavigationStack {
-        BusinessCardView(participant: Participant(number: 12, nickname: "HANA", mbti: "INFP", interests: ["読書", "カフェ", "映画"], message: "いろんな人とお話ししたいです！"))
+        BusinessCardView(participant: ParticipantProfile(number: 12, nickname: "HANA", mbti: "INFP", interests: ["読書", "カフェ", "映画"], message: "いろんな人とお話ししたいです！"))
     }
 }
 #Preview("INTP・写真なし") {
     NavigationStack {
-        BusinessCardView(participant: Participant(number: 25, nickname: "RYO", mbti: "INTP", interests: ["ゲーム", "アニメ", "音楽"], message: "気軽に話しかけてください！"))
+        BusinessCardView(participant: ParticipantProfile(number: 25, nickname: "RYO", mbti: "INTP", interests: ["ゲーム", "アニメ", "音楽"], message: "気軽に話しかけてください！"))
     }
 }
