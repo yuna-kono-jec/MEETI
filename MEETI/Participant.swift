@@ -18,6 +18,8 @@ let ageGroupOptions = [
 ]
 let matchingAgeGroupOptions = ["指定しない"] + ageGroupOptions
 
+// 既存の型名・保存プロパティは維持し、この永続モデルをiOS 17以降に隔離します。
+@available(iOS 17, macOS 14, *)
 @Model
 final class Participant {
     // Supabaseの参加者ID。昔の端末内データではnilになる

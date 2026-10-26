@@ -15,4 +15,6 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        // Preview内の画面遷移でも共通Storeを渡し、実保存先は使用しません。
+        .environmentObject(try! ParticipantStore(inMemory: true))
 }

@@ -1,9 +1,9 @@
 import Foundation
-import SwiftData
 
 // 1人分のBEST MATCH情報
 struct BestMatch: Identifiable {
-    var participant: Participant
+    // 保存方式によらないプロフィールで、従来と同じ順位計算を行います。
+    var participant: ParticipantProfile
     var compatibility: CompatibilityResult
 
     // 画面で参加者を区別するために受付番号を使う
@@ -22,8 +22,8 @@ struct BestMatchCalculator {
 
     // 一番相性の良い参加者を探す
     static func findBestMatches(
-        participant: Participant,
-        candidates: [Participant],
+        participant: ParticipantProfile,
+        candidates: [ParticipantProfile],
         preferredGender: String = "どちらでも",
         preferredAgeGroup: String = "指定しない"
     ) -> BestMatchResult? {
@@ -92,18 +92,17 @@ struct BestMatchCalculator {
         )
     }
 
-    // SwiftDataに保存されている全参加者からBEST MATCHを探す
+    // OSごとの保存方式を共通Storeで吸収し、全参加者からの計算を維持します。
+    @MainActor
     static func findBestMatches(
-        participant: Participant,
-        modelContext: ModelContext,
+        participant: ParticipantProfile,
+        participantStore: ParticipantStore,
         preferredGender: String = "どちらでも",
         preferredAgeGroup: String = "指定しない"
     ) -> BestMatchResult? {
 
-        let descriptor = FetchDescriptor<Participant>()
-
         // 保存データを取得できなかった場合は結果なし
-        guard let allParticipants = try? modelContext.fetch(descriptor) else {
+        guard let allParticipants = try? participantStore.fetchAll() else {
             return nil
         }
 

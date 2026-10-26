@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct PartnerCardView: View {
-    var participant: Participant?
+    // 相手と本人を取り違えず、iOS 16対応の共通モデルで受け渡します。
+    var participant: ParticipantProfile?
     // QRコード表示まで引き継ぐ、現在操作している本人の参加者データ
-    var currentParticipant: Participant
+    @ObservedObject var currentParticipant: ParticipantProfile
     var body: some View {
         // 相手の名刺を表示し、QR画面には本人のデータを渡す
         MEETIScreen(eyebrow: "07 / MATCH CARD", title: "気になる人の名刺", subtitle: "文化祭のどこかにいるかも！") {
@@ -23,7 +24,7 @@ struct PartnerCardView: View {
     PartnerCardView(
         participant: nil,
         // Previewで使う、現在操作している本人の仮データ
-        currentParticipant: Participant(
+        currentParticipant: ParticipantProfile(
             number: 1,
             nickname: "ゆな",
             mbti: "ENTJ",

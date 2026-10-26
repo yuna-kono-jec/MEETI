@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftData
+// 端末保存は結果画面の共通Storeが担当し、この入力画面はSwiftDataへ依存しません。
 import UIKit
 
 struct ProfileInputView: View {

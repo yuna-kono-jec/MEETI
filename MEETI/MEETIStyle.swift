@@ -74,7 +74,8 @@ struct MEETITypeImage: View {
 
 // 保存済みの写真がある場合はそれを表示し、未登録時はMBTI画像を使う。
 struct MEETIAvatar: View {
-    let participant: Participant
+    // 非同期で取得した写真の更新も、iOS 16で画面に反映します。
+    @ObservedObject var participant: ParticipantProfile
     var size: CGFloat = 130
 
     @State private var displayedPhoto: UIImage?
@@ -241,7 +242,8 @@ struct MEETICardSprig: View {
 
 // 新しいお手本の、番号・画像・名前・タグ・ひとこと・ロゴの順で名刺を表示する。
 struct MEETIParticipantCard: View {
-    let participant: Participant
+    // 共通モデルを観測し、名刺の見た目は保存方式に依存させません。
+    @ObservedObject var participant: ParticipantProfile
     var body: some View {
         VStack(spacing: 15) {
             HStack(alignment: .top) {
@@ -296,5 +298,17 @@ struct MEETIParticipantCard: View {
     private var typeLabel: String {
         guard let name = meetiTypeNames[participant.mbti.uppercased()] else { return participant.mbti }
         return "\(participant.mbti) / \(name)タイプ"
+    }
+}
+
+// 16.0〜16.3は標準スクロール、16.4以降は現在と同じ跳ね返り設定を使います。
+extension View {
+    @ViewBuilder
+    func meetiCompatibleScrollBounce() -> some View {
+        if #available(iOS 16.4, macOS 13.3, *) {
+            self.scrollBounceBehavior(.basedOnSize)
+        } else {
+            self
+        }
     }
 }

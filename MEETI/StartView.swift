@@ -23,7 +23,8 @@ struct StartView: View {
                     }
                     .frame(minHeight: geometry.size.height)
                     .frame(maxWidth: .infinity)
-                }.scrollBounceBehavior(.basedOnSize)
+                // 表示内容を変えず、16.4より前にも対応するスクロール設定を使います。
+                }.meetiCompatibleScrollBounce()
             }
             .background {
                 ZStack(alignment: .topLeading) {
