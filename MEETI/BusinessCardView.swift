@@ -15,14 +15,7 @@ struct BusinessCardView: View {
                     .foregroundStyle(MEETIStyle.green)
                 VStack(spacing: 10) {
                     compactCard(imageSize: 160)
-                    NavigationLink {
-                        QRCodeView(participant: participant)
-                    } label: {
-                        Text("QRコードを表示")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(MEETIButtonStyle())
-                    // 名刺は保存済みなので、ここからマッチングへ進む。
+                    // QR表示は体験の最後に残し、この名刺の直下にはマッチングボタンだけを配置します。
                     NavigationLink { MatchingView(participant: participant) } label: {
                         HStack {
                             Spacer()
